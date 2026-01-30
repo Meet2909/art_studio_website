@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Body Styles - Dark Theme Base */
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #121212; /* Dark fallback */
+  color: #F3F4F6; /* Light Grey text for readability on dark */
+}
+
+
+.glass-card {
+  /* Gradient: Dark transparent grey to lighter transparent grey */
+  background: linear-gradient(
+    135deg, 
+    rgba(161, 161, 161, 0.300) 0%, 
+    rgba(121, 121, 121, 0.300) 100%
+  );
+
+  /* Blur */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* Borders: Subtle white edges for 3D pop */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Shadow */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+
+  /* Performance */
+  transform: translate3d(0, 0, 0);
+}
+
+/* Selection Colors - Matching the Silk Tone */
+::selection {
+  background: #7B7481;
+  color: white;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(8px); /* Keep slight blur on modern mobiles */
+    background: rgba(186, 186, 186, 0.268);
+  }
+}
+
+@layer utilities {
+  /* Class to hide scrollbar but keep functionality (Optional) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* THE PRETTY SCROLLBAR CLASS */
+  .pretty-scroll::-webkit-scrollbar {
+    width: 6px; /* Width of the vertical scrollbar */
+  }
+
+  .pretty-scroll::-webkit-scrollbar-track {
+    background: transparent; /* Track is invisible */
+    margin: 4px 0; /* Add margin so it doesn't touch the edges */
+  }
+
+  .pretty-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle white by default */
+    border-radius: 20px; /* Fully rounded */
+    border: 2px solid transparent; /* Creates padding effect */
+    background-clip: content-box;
+  }
+
+  /* Make it pink when hovering over the scrollbar itself */
+  .pretty-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #D984B5; 
+  }
+}

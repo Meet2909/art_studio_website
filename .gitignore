@@ -1,0 +1,17 @@
+# --- Dependencies (Too big to upload) ---
+node_modules
+client/node_modules
+server/node_modules
+
+# --- Secrets (Never upload these!) ---
+.env
+client/.env
+server/.env
+
+# --- System Junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+npm-debug.log
+yarn-error.log
