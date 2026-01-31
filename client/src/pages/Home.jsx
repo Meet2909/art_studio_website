@@ -46,11 +46,10 @@
             {[
             {
                 icon: Brush,
-                title: "Fine Arts",
+                title: "Fine Arts & Modern Art",
                 desc: "Oil, Acrylic & Watercolors",
             },
             { icon: Shapes, title: "Sculpting", desc: "Clay modeling & Pottery" },
-            { icon: Palette, title: "Digital", desc: "Modern Art & Design" },
             ].map((cat, idx) => (
             <div
                 key={idx}
