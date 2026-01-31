@@ -135,65 +135,67 @@
     };
 
     return (
-      <div className="min-h-screen text-slate-100 selection:bg-[#7B7481] selection:text-white" style={{ fontFamily: "'Quicksand', sans-serif"}}>
-        <Toaster position="top-center" toastOptions={{ 
-          style: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }
-        }} />
-        
-        {bgType === 'dots' ? <Background /> : (
-          <div className="fixed inset-0 z-0 bg-[#0f0c14]">
-            <DotGrid dotSize={5} gap={30} baseColor="#41245d" activeColor="#fbfbfb" proximity={200} />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
-          </div>
-        )}
-
-        <Navbar 
-          cartCount={cart.length} 
-          currentPage={currentPage} 
-          navigateTo={navigateTo} 
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          clearCart={clearCart}
-          user={user}                 
-          handleLogout={handleLogout} 
-        />
-        
-        <main className="relative z-10 transition-all duration-500 ease-in-out">
-          {currentPage === 'home' && <Home navigateTo={navigateTo} />}
-          {currentPage === 'courses' && <Courses addToCart={addToCart} />}
-          {currentPage === 'gallery' && <Gallery />}
-          {currentPage === 'about' && <About />}
-          {currentPage === 'contact' && <Contact />}
-          {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
-          {currentPage === 'admin' && <AdminDashboard />}
-          {currentPage === 'cart' && (
-            <Cart 
-              cart={cart} 
-              navigateTo={navigateTo} 
-              removeFromCart={removeFromCart} 
-              addToCart={addToCart}
-              clearCart={clearCart}
-              user={user} 
-            />
+      <div className="w-full overflow-x-hidden relative">
+        <div className="min-h-screen text-slate-100 selection:bg-[#7B7481] selection:text-white" style={{ fontFamily: "'Quicksand', sans-serif"}}>
+          <Toaster position="top-center" toastOptions={{ 
+            style: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }
+          }} />
+          
+          {bgType === 'dots' ? <Background /> : (
+            <div className="fixed inset-0 z-0 bg-[#0f0c14]">
+              <DotGrid dotSize={5} gap={30} baseColor="#41245d" activeColor="#fbfbfb" proximity={200} />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
+            </div>
           )}
-          {currentPage === 'login' && (
-              <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
-          )} 
-        </main>
-
-        <footer className="relative z-10 glass-card border-t border-white/10 py-12 px-4 mt-auto">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="text-center md:text-left">
-                  <h3 className="text-xl font-bold text-black">Chetna's Creative Den</h3>
-                  <p className="text-black text-sm mt-2">© 2024 All Rights Reserved.</p>
-              </div>
-              <div className="flex gap-6 text-gray-400 font-medium">
-                  <button onClick={() => navigateTo('admin')} className="text-black hover:text-grey transition-colors flex items-center gap-1">
-                    <User size={14}/> Admin Login
-                  </button>
-              </div>
-          </div>
-        </footer>
+  
+          <Navbar 
+            cartCount={cart.length} 
+            currentPage={currentPage} 
+            navigateTo={navigateTo} 
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            clearCart={clearCart}
+            user={user}                 
+            handleLogout={handleLogout} 
+          />
+          
+          <main className="relative z-10 transition-all duration-500 ease-in-out">
+            {currentPage === 'home' && <Home navigateTo={navigateTo} />}
+            {currentPage === 'courses' && <Courses addToCart={addToCart} />}
+            {currentPage === 'gallery' && <Gallery />}
+            {currentPage === 'about' && <About />}
+            {currentPage === 'contact' && <Contact />}
+            {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
+            {currentPage === 'admin' && <AdminDashboard />}
+            {currentPage === 'cart' && (
+              <Cart 
+                cart={cart} 
+                navigateTo={navigateTo} 
+                removeFromCart={removeFromCart} 
+                addToCart={addToCart}
+                clearCart={clearCart}
+                user={user} 
+              />
+            )}
+            {currentPage === 'login' && (
+                <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
+            )} 
+          </main>
+  
+          <footer className="relative z-10 glass-card border-t border-white/10 py-12 px-4 mt-auto">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="text-center md:text-left">
+                    <h3 className="text-xl font-bold text-black">Chetna's Creative Den</h3>
+                    <p className="text-black text-sm mt-2">© 2024 All Rights Reserved.</p>
+                </div>
+                <div className="flex gap-6 text-gray-400 font-medium">
+                    <button onClick={() => navigateTo('admin')} className="text-black hover:text-grey transition-colors flex items-center gap-1">
+                      <User size={14}/> Admin Login
+                    </button>
+                </div>
+            </div>
+          </footer>
+        </div>
       </div>
     );
   }
