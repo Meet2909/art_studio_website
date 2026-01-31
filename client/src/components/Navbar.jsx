@@ -12,7 +12,7 @@
     }) => {
 
     return (
-        // FIX 1: Increased Z-Index to 100 to stay above 'Our Workshops' text
+        // NAVBAR HEADER (Keeps Z-Index 100)
         <nav className="fixed w-full z-[100] top-0 left-0 glass-card border-b border-white/10 bg-white/60 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
@@ -98,7 +98,7 @@
                 )}
                 </button>
 
-                {/* MOBILE MENU TOGGLE - FIX 2: Ensure it's visible */}
+                {/* MOBILE MENU TOGGLE */}
                 <div className="flex md:hidden">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -116,9 +116,13 @@
             </div>
         </div>
 
-        {/* MOBILE DROPDOWN */}
+        {/* --- FIX IS HERE: MOBILE DROPDOWN --- */}
+        {/* 1. Removed 'glass-card' class (It was making it transparent grey).
+            2. Added 'bg-white/90' (High visibility).
+            3. Added 'backdrop-blur-xl' (Strong glass blur).
+        */}
         {isMenuOpen && (
-            <div className="md:hidden glass-card border-t border-white/20 bg-white/95 absolute w-full left-0 top-20 shadow-xl">
+            <div className="md:hidden absolute w-full left-0 top-20 shadow-2xl border-t border-white/20 bg-white/90 backdrop-blur-xl z-[90]">
             <div className="px-4 pt-2 pb-6 space-y-2">
                 {[
                 "Home",
@@ -133,9 +137,9 @@
                     key={item}
                     onClick={() => {
                     navigateTo(item.toLowerCase());
-                    setIsMenuOpen(false); // Close menu on click
+                    setIsMenuOpen(false); 
                     }}
-                    className="text-black hover:text-[#D984B5] block w-full text-left px-3 py-3 rounded-lg text-lg font-medium hover:bg-gray-50 transition-colors"
+                    className="text-black hover:text-[#D984B5] block w-full text-left px-3 py-3 rounded-lg text-lg font-medium hover:bg-white/50 transition-colors"
                 >
                     {item} {item === "Cart" && `(${cartCount})`}
                 </button>
