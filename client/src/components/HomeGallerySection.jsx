@@ -62,20 +62,19 @@
             scrollSpeed={2}
             />
         </div>
-
-        {/* --- MOBILE VIEW (Straight Stack) --- */}
+            
+        {/* MOBILE VIEW (Straight & Clean) */}
         <div className="md:hidden w-full px-6 flex flex-col gap-6 mb-12">
-            {items.map((item, idx) => (
-                /* FIX: Removed 'rotate' classes. Added proper shadow and spacing. */
-                <div key={idx} className="bg-white p-2 rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
-                    <img 
-                        src={item.image} 
-                        alt={item.text} 
-                        className="w-full h-64 object-cover rounded-xl"
-                    />
-                    <p className="text-center font-bold mt-2 font-rubik text-sm text-gray-700">{item.text}</p>
-                </div>
-            ))}
+          {items.map((item, idx) => (
+              <div key={idx} className="bg-white p-2 rounded-2xl shadow-lg hover:scale-[1.01] transition-transform duration-300">
+                  <img 
+                      src={item.image} 
+                      alt={item.text} 
+                      className="w-full h-64 object-cover rounded-xl"
+                  />
+                  <p className="text-center font-bold mt-2 font-rubik text-sm text-gray-700">{item.text}</p>
+              </div>
+          ))}
         </div>
 
         {/* BUTTON */}
