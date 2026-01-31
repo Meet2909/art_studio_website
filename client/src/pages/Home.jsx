@@ -42,7 +42,7 @@
                 </span>
             </div>
             
-        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
             {[
             {
                 icon: Brush,
