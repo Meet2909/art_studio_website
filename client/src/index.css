@@ -14,6 +14,10 @@ body {
   color: #F3F4F6; /* Light Grey text for readability on dark */
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* This bans horizontal scrolling on the entire phone */
+}
 
 .glass-card {
   /* Gradient: Dark transparent grey to lighter transparent grey */
