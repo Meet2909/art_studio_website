@@ -12,7 +12,7 @@
         <DotGrid
             dotSize={6}
             gap={35}
-            baseColor="#3f2059"
+            baseColor="#d8b4e2"
             activeColor="#cb9cf2"
             proximity={185}
         />
