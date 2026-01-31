@@ -37,13 +37,14 @@
     app.use('/api/user', aboutRoutes);
 
     // ==========================================
-    // 3. FRONTEND SERVING (FIXED)
+    // 3. FRONTEND SERVING (CRASH PROOF VERSION)
     // ==========================================
-    // Serve static files from the React build folder
+    // 1. Serve Static Files FIRST (Fixes MIME/Black Screen error)
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    // THE FIX: Use '*' (string) instead of /.*/ (regex)
-    app.get('*', (req, res) => {
+    // 2. Catch-All Route (FIXED: Uses Regex to prevent crash)
+    // We use /(.*)/ instead of '*' because '*' causes a PathError in your setup
+    app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
 
