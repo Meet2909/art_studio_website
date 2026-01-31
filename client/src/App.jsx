@@ -143,7 +143,7 @@
           
           {bgType === 'dots' ? <Background /> : (
             <div className="fixed inset-0 z-0 bg-[#0f0c14]">
-              <DotGrid dotSize={5} gap={30} baseColor="#41245d" activeColor="#fbfbfb" proximity={200} />
+              <DotGrid dotSize={4} gap={30} baseColor="#d8b4e2" activeColor="#fbfbfb" proximity={200} />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
             </div>
           )}

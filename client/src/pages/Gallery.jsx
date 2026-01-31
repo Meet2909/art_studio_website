@@ -25,7 +25,7 @@ import React, { useEffect, useState } from "react";
     return (
         <div className="pt-32 pb-20 min-h-screen bg-black/30">
         <div className="max-w-[90rem] mx-auto mb-16 px-4">
-            <h2 className="lg:text-8xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff83cb] via-[#AEE2FF] to-[#f4507e] text-center pb-2">
+            <h2 className="lg:text-4xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff83cb] via-[#AEE2FF] to-[#f4507e] text-center pb-2">
             Student Gallery
             </h2>
             <br />

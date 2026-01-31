@@ -40,7 +40,7 @@
         {/* 1. HERO SECTION */}
         <div className="max-w-[90rem] mx-auto text-center mb-20">
             <h1
-            className="text-5xl sm:text-7xl md:text-8xl font-bold text-black mb-8 leading-tight drop-shadow-2xl"
+            className="text-xl sm:text-3xl md:text-4xl font-bold text-black mb-8 leading-tight drop-shadow-2xl"
             style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}
             >
             Corporate <br />
@@ -59,8 +59,8 @@
                 </div>
             </div>
 
-            {/* --- VIDEO SECTION --- */}
-            <div className="w-full h-[40vh] md:h-[65vh] glass-card rounded-[2.5rem] overflow-hidden relative group border border-white/10 shadow-2xl">
+                {/* --- VIDEO SECTION FIXED (No Cropping) --- */}
+            <div className="w-full h-[40vh] md:h-[65vh] glass-card rounded-[2.5rem] overflow-hidden relative group border border-white/10 shadow-2xl bg-black">
                 {getVideo() ? (
                     <>
                         <video
@@ -70,10 +70,10 @@
                             loop
                             muted={isMuted} 
                             playsInline
-                            className="w-full h-full object-cover"
+                            /* FIX: object-contain preserves ratio. bg-black handles empty space. */
+                            className="w-full h-full object-contain bg-black"
                         />
                         
-                        {/* Mute Button */}
                         <button 
                             onClick={toggleMute}
                             className="absolute bottom-6 right-6 p-3 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 transition-all transform hover:scale-110 z-20"
@@ -83,7 +83,7 @@
                     </>
                 ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-900">
-                        <p className="text-white/50 animate-pulse">Loading Video from Database...</p>
+                        <p className="text-white/50 animate-pulse">Loading Video...</p>
                     </div>
                 )}
             </div>

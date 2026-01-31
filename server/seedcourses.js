@@ -1,4 +1,3 @@
-    // server/seedcourses.js
     require('dotenv').config();
     const mongoose = require('mongoose');
     const Course = require('./models/Course');
@@ -9,7 +8,8 @@
         category: "Kids",
         type: "Fine Arts",
         price: 3500,
-        image: "/courses/junior.jpg", 
+        // --- CHANGE 3: NEW IMAGE NAME ---
+        image: "/courses/junior_updated.jpg", 
         description: [
         "Course Duration – 1 year",
         "Basic Drawing Skills", 
@@ -21,6 +21,7 @@
         "Art & Nature"
         ]
     },
+    // ... (Keep other courses exactly the same) ...
     {
         title: "Foundation Courses for Kids (6 - 10 years)",
         category: "Kids",
@@ -60,7 +61,7 @@
         price: 4800,
         image: "/courses/diploma.jpg",
         description: [
-        "Format: 12 classes/month (1.5 hrs each)", // Moved from title to here
+        "Format: 12 classes/month (1.5 hrs each)",
         "Course Duration – 1 year", 
         "Basic Drawing Skills",
         "Perspective & Composition",  
@@ -113,15 +114,9 @@
         try {
             await mongoose.connect(process.env.MONGO_URI);
             console.log('✅ Connected to MongoDB');
-
-            // 1. DELETE ALL OLD DATA
             await Course.deleteMany({});
-            console.log('🗑️  Old courses removed (Database Wiped)');
-
-            // 2. INSERT NEW DATA
             await Course.insertMany(coursesData);
-            console.log('🚀 Success! 6 clean courses inserted.');
-            
+            console.log('🚀 Success! Courses updated with new images.');
             process.exit();
         } catch (error) {
             console.error("❌ Seeding failed:", error);

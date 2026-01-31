@@ -12,23 +12,29 @@
     }) => {
 
     return (
-        // NAVBAR HEADER (Keeps Z-Index 100)
-        <nav className="fixed w-full z-[100] top-0 left-0 glass-card border-b border-white/10 bg-white/60 backdrop-blur-md">
+        <nav className="fixed w-full z-[100] top-0 left-0 glass-card border-b border-white/20 bg-white/60 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
             
-            {/* LOGO */}
+            {/* --- LOGO UPDATE: IMAGE INSTEAD OF TEXT --- */}
             <div
-                className="flex-shrink-0 cursor-pointer flex items-center gap-3 group"
+                className="flex-shrink-0 cursor-pointer group"
                 onClick={() => navigateTo("home")}
             >
-                <div className="flex flex-col -space-y-1">
-                <span className="font-bold text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-[#ff86cd] to-[#36b8ff]">
-                    Chetna's
-                </span>
-                <span className="text-black/40 text-sm md:text-xl font-bold tracking-widest uppercase">
-                    Creative Den
-                </span>
+                <img 
+                src="/logo.png" 
+                alt="Chetna's Creative Den" 
+                className="h-16 w-auto object-contain hover:scale-105 transition-transform"
+                onError={(e) => {
+                    // Fallback: If image fails, show text
+                    e.target.style.display='none';
+                    e.target.nextSibling.style.display='flex';
+                }}
+                />
+                {/* Fallback Text (Hidden by default) */}
+                <div className="hidden flex-col -space-y-1">
+                    <span className="font-bold text-2xl text-black">Chetna's</span>
+                    <span className="text-sm font-bold tracking-widest uppercase">Creative Den</span>
                 </div>
             </div>
 
@@ -49,7 +55,7 @@
                     className={`px-3 py-2 rounded-md text-lg font-bold transition-all duration-300 hover:text-[#D984B5] ${
                         currentPage === item.toLowerCase()
                         ? "text-[#ff6b8b] scale-105"
-                        : "text-black"
+                        : "text-gray-800"
                     }`}
                     >
                     {item}
@@ -61,7 +67,7 @@
             {/* RIGHT SIDE ICONS */}
             <div className="flex items-center gap-2 md:gap-4">
                 
-                {/* AUTH SECTION (Desktop) */}
+                {/* AUTH SECTION */}
                 <div className="hidden md:block">
                 {user ? (
                     <div className="flex items-center gap-4">
@@ -116,11 +122,6 @@
             </div>
         </div>
 
-        {/* --- FIX IS HERE: MOBILE DROPDOWN --- */}
-        {/* 1. Removed 'glass-card' class (It was making it transparent grey).
-            2. Added 'bg-white/90' (High visibility).
-            3. Added 'backdrop-blur-xl' (Strong glass blur).
-        */}
         {isMenuOpen && (
             <div className="md:hidden absolute w-full left-0 top-20 shadow-2xl border-t border-white/20 bg-white/90 backdrop-blur-xl z-[90]">
             <div className="px-4 pt-2 pb-6 space-y-2">
@@ -145,7 +146,6 @@
                 </button>
                 ))}
 
-                {/* Auth Link for Mobile */}
                 {user ? (
                 <button
                     onClick={() => { handleLogout(); setIsMenuOpen(false); }}
