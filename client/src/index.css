@@ -51,11 +51,24 @@ html, body {
   color: white;
 }
 
-/* Mobile Optimization */
-@media (max-width: 768px) {
-  .glass-card {
-    backdrop-filter: blur(8px); /* Keep slight blur on modern mobiles */
-    background: rgba(186, 186, 186, 0.268);
+@media screen and (max-width: 768px) {
+  /* 1. Force the root container to never scroll horizontally */
+  #root, html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    position: relative;
+  }
+
+  /* 2. Force the "Our Workshops" title to be small */
+  h2 {
+    font-size: 2.5rem !important; /* Forces text to be manageable */
+    line-height: 1.2 !important;
+    word-wrap: break-word !important;
+  }
+
+  /* 3. Force the Navbar to sit on top of EVERYTHING */
+  nav {
+    z-index: 9999 !important;
   }
 }
 
