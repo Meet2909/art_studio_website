@@ -13,7 +13,7 @@
                 <img 
                     src="/Banner2.png" 
                     alt="A Courtyard of Endless Creativity" 
-                    className="w-full max-w-4xl h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-700"
+                    className="w-full max-w-6xl h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-700"
                 />
             </div>
 
