@@ -4,7 +4,7 @@
     const DotGrid = ({
     dotSize = 20,
     gap = 40,
-    baseColor = "#30243b",
+    baseColor = "#d8b4e2",
     activeColor = "#ffffff",
     proximity = 200,
     className = "",

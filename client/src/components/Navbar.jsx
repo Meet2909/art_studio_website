@@ -22,7 +22,7 @@
                 onClick={() => navigateTo("home")}
             >
                 <img 
-                src="/logo.png" 
+                src="/logo.jpeg" 
                 alt="Chetna's Creative Den" 
                 className="h-16 w-auto object-contain hover:scale-105 transition-transform"
                 onError={(e) => {
