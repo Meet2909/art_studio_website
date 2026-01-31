@@ -37,12 +37,12 @@
     app.use('/api/user', aboutRoutes);
 
     // ==========================================
-    // 3. FRONTEND SERVING (THE FIX)
+    // 3. FRONTEND SERVING (FIXED)
     // ==========================================
-    // Use __dirname to safely find the client/dist folder relative to this file
+    // Serve static files from the React build folder
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    // Catch-all: Send index.html for any request that isn't an API or static file
+    // THE FIX: Use '*' (string) instead of /.*/ (regex)
     app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
