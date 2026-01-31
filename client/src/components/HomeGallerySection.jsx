@@ -1,5 +1,3 @@
-    // src/components/HomeGallerySection.jsx
-
     import React, { useEffect, useState } from 'react';
     import CircularGallery from './CircularGallery';
 
@@ -10,38 +8,29 @@
     useEffect(() => {
         const fetchFeaturedImages = async () => {
         try {
-            console.log("1. Fetching from API..."); // DEBUG
-            const res = await fetch('/api/admin/gallery');
-            
-            if (!res.ok) {
-            throw new Error('Failed to fetch gallery items');
-            }
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/admin/gallery`);
+            if (!res.ok) throw new Error('Failed to fetch gallery items');
 
             const data = await res.json();
-            console.log("2. Raw Data received:", data); // DEBUG - Is this empty?
 
-            // 2. FILTER
-            const featuredData = data
-                .filter(item => item.isFeatured === true || item.isFeatured === "true")
-                .slice(0, 6); // <--- Add this slice
-            console.log("3. Featured Data length:", featuredData.length); // DEBUG - Is this 0?
+            // 1. FILTER (Take top 6)
+            const featuredData = data.slice(0, 6);
 
-            // 3. TRANSFORM
+            // 2. TRANSFORM
             const formattedItems = featuredData.map(item => {
-                const width = item.width ? parseInt(item.width, 10) : 400;
-                const height = item.height ? parseInt(item.height, 10) : 500;
-                const roundedNum = item.rounded ? parseInt(item.rounded.replace(/\D/g, ''), 10) : 20;
-                const roundedVal = roundedNum / 400; 
+            const width = item.width ? parseInt(item.width, 10) : 400;
+            const height = item.height ? parseInt(item.height, 10) : 500;
+            const roundedNum = item.rounded ? parseInt(item.rounded.replace(/\D/g, ''), 10) : 20;
+            const roundedVal = roundedNum / 400; 
 
-                return {
-                    ...item,
-                    image: item.imageUrl, 
-                    text: item.title,
-                    width: isNaN(width) ? 400 : width,   
-                    height: isNaN(height) ? 500 : height, 
-                    rounded: isNaN(roundedVal) ? 0.05 : roundedVal,
-                    
-                };
+            return {
+                ...item,
+                image: item.imageUrl, 
+                text: item.title,
+                width: isNaN(width) ? 400 : width,   
+                height: isNaN(height) ? 500 : height, 
+                rounded: isNaN(roundedVal) ? 0.05 : roundedVal,
+            };
             });
 
             setItems(formattedItems);
@@ -55,24 +44,20 @@
         fetchFeaturedImages();
     }, []);
 
-    // --- TEMPORARY DEBUG UI ---
-    // Instead of returning null, return a message so you can see where it is on screen
     if (loading) return <div className="text-black text-center pt-20">Loading Gallery...</div>;
-    
-    if (items.length === 0) {
-        return (
-            <div className="w-full h-40 flex items-center justify-center bg-red-100 z-50 relative">
-                <p className="text-red-600 font-bold">
-                    No Featured Items Found. Check Console Logs "3. Featured Data length".
-                </p>
-            </div>
-        );
-    }
+    if (items.length === 0) return null;
 
     return (
-        <div className="w-full relative -mt-20 md:-mt-32 pb-20 bg-transparent overflow-hidden flex flex-col items-center z-20">
+        <div className="w-full relative pb-20 bg-transparent flex flex-col items-center z-20">
         
-        <div className="w-full h-[600px] md:h-[800px] relative mb-8">
+        {/* HEADER for Mobile Visibility */}
+        <h2 className="md:hidden text-4xl font-bold text-center mb-8 mt-10" style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
+            Student Art
+        </h2>
+
+        {/* --- VIEW 1: DESKTOP (Circular Gallery) --- */}
+        {/* hidden on mobile, block on md+ screens */}
+        <div className="hidden md:block w-full h-[800px] relative mb-8 -mt-32">
             <CircularGallery 
             key={items.length} 
             items={items} 
@@ -83,15 +68,30 @@
             />
         </div>
 
+        {/* --- VIEW 2: MOBILE (Clean Vertical Stack) --- */}
+        {/* block on mobile, hidden on md+ screens */}
+        <div className="md:hidden w-full px-6 flex flex-col gap-8 mb-12">
+            {items.map((item, idx) => (
+                <div key={idx} className="bg-white p-2 rounded-2xl shadow-lg transform rotate-2 even:-rotate-2 hover:rotate-0 transition-transform duration-300">
+                    <img 
+                        src={item.image} 
+                        alt={item.text} 
+                        className="w-full h-64 object-cover rounded-xl"
+                    />
+                    <p className="text-center font-bold mt-2 font-rubik">{item.text}</p>
+                </div>
+            ))}
+        </div>
+
+        {/* SHARED BUTTON */}
         <button
-                onClick={() => navigateTo("courses")}
-                className="group relative w-auto max-w-full px-6 py-3 md:px-16 md:py-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-black/20 text-black transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-            >
-                <span className="relative z-10 flex items-center justify-center gap-3 font-medium text-lg md:text-2xl tracking-wide">
-                View More In Gallery
-                </span>
-                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-10 group-hover:opacity-100 transition-opacity duration-300" />
-            </button>
+            onClick={() => navigateTo("gallery")}
+            className="group relative w-auto max-w-full px-8 py-4 md:px-16 md:py-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-black/20 text-black transition-all duration-300 ease-out hover:scale-105 shadow-xl"
+        >
+            <span className="relative z-10 flex items-center justify-center gap-3 font-medium text-lg md:text-2xl tracking-wide">
+            View More In Gallery
+            </span>
+        </button>
 
         </div>
     );

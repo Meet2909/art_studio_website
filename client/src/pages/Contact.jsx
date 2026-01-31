@@ -85,7 +85,7 @@
                     </div>
                     <div>
                         <p className="font-bold text-[#32293a]">Email Us</p>
-                        <p className="text-black break-all">info@chetnascreativeden.com</p>
+                        <p className="text-black break-all">chetnascreativeden@gmail.com</p>
                     </div>
                 </a>
                 </div>
