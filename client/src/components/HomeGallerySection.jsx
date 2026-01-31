@@ -12,8 +12,15 @@
             if (!res.ok) throw new Error('Failed to fetch gallery items');
 
             const data = await res.json();
-            const featuredData = data.slice(0, 6);
 
+            // 1. FILTER: Only keep 'Featured' items
+            const featuredData = data.filter(item => 
+                item.isFeatured === true || 
+                item.isFeatured === "true" || 
+                item.category === "Featured"
+            ).slice(0, 10); 
+
+            // 2. TRANSFORM
             const formattedItems = featuredData.map(item => {
             const width = item.width ? parseInt(item.width, 10) : 400;
             const height = item.height ? parseInt(item.height, 10) : 500;
@@ -37,6 +44,7 @@
             setLoading(false);
         }
         };
+
         fetchFeaturedImages();
     }, []);
 
@@ -47,34 +55,35 @@
         <div className="w-full relative pb-20 bg-transparent flex flex-col items-center z-20">
         
         {/* HEADER for Mobile */}
-        <h2 className="md:hidden text-3xl font-bold text-center mb-8 mt-10" style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
+        <h2 className="md:hidden text-3xl font-bold text-center mb-8 mt-10 text-black">
             Student Art
         </h2>
 
-        {/* --- DESKTOP VIEW (Circular) --- */}
+        {/* --- DESKTOP VIEW (Circular Gallery with BEND) --- */}
         <div className="hidden md:block w-full h-[800px] relative mb-8 -mt-32">
             <CircularGallery 
             key={items.length} 
             items={items} 
-            bend={2} 
+            bend={3}              /* <--- KEEPING THE ROTATION FOR DESKTOP */
             textColor="#ffffff" 
             borderRadius={0.05}
             scrollSpeed={2}
             />
         </div>
-            
-        {/* MOBILE VIEW (Straight & Clean) */}
+
+        {/* --- MOBILE VIEW (Straight Stack - NO ROTATION) --- */}
         <div className="md:hidden w-full px-6 flex flex-col gap-6 mb-12">
-          {items.map((item, idx) => (
-              <div key={idx} className="bg-white p-2 rounded-2xl shadow-lg hover:scale-[1.01] transition-transform duration-300">
-                  <img 
-                      src={item.image} 
-                      alt={item.text} 
-                      className="w-full h-64 object-cover rounded-xl"
-                  />
-                  <p className="text-center font-bold mt-2 font-rubik text-sm text-gray-700">{item.text}</p>
-              </div>
-          ))}
+            {items.map((item, idx) => (
+                /* CLEAN CARD: No 'rotate' classes here. Just a simple white card. */
+                <div key={idx} className="bg-white p-2 rounded-2xl shadow-lg hover:scale-[1.02] transition-transform duration-300">
+                    <img 
+                        src={item.image} 
+                        alt={item.text} 
+                        className="w-full h-64 object-cover rounded-xl"
+                    />
+                    <p className="text-center font-bold mt-2 font-rubik text-sm text-gray-700">{item.text}</p>
+                </div>
+            ))}
         </div>
 
         {/* BUTTON */}
@@ -91,4 +100,4 @@
     );
     };
 
-    export default HomeGallerySection;  
+    export default HomeGallerySection;
