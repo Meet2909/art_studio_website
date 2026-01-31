@@ -33,10 +33,17 @@
         <div className="max-w-[95%] mx-auto">
             <div className="text-center mb-12">
             
-            {/* FIX: Changed text-5xl to text-3xl for Mobile. It scales up to 7xl on PC */}
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-[#000000] mb-4 drop-shadow-sm leading-tight" 
-                style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
-                Our Workshops
+            {/* FORCED SIZE: 2rem on mobile (small), 5rem on desktop */}
+            <h2 
+              className="font-bold text-[#000000] mb-4 drop-shadow-sm leading-tight break-words px-2" 
+              style={{ 
+                fontFamily: "'Rubik Doodle Shadow', system-ui",
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)", // "clamp" forces it to scale with screen width
+                width: "100%",
+                maxWidth: "100vw"
+              }}
+            >
+              Our Workshops
             </h2>
             
             {/* Filter Buttons */}
