@@ -11,7 +11,7 @@
             {/* --- BANNER IMAGE UPDATE --- */}
             <div className="flex justify-center mb-8 md:mb-12">
                 <img 
-                    src="/home_banner.png" 
+                    src="/Banner2.png" 
                     alt="A Courtyard of Endless Creativity" 
                     className="w-full max-w-4xl h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-700"
                 />
