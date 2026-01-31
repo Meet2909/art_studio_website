@@ -28,21 +28,21 @@ const Courses = ({ addToCart }) => {
     : courses.filter((c) => c.category === filter || c.type === filter);
 
   return (
-    // FIX 1: 'w-full overflow-x-hidden' ensures no horizontal scrolling on the page wrapper
+    // FIX 1: ROOT CONTAINER SAFETY
     <div className="pt-32 pb-20 px-4 min-h-screen w-full overflow-x-hidden">
-      <div className="max-w-[95%] mx-auto">
-        <div className="text-center mb-12">
+      
+      {/* FIX 2: CONSTRAINED WIDTH WRAPPER */}
+      <div className="max-w-[95%] mx-auto w-full">
+        
+        {/* FIX 3: THE TITLE CONTAINER (ARMORED) 
+            - 'w-full max-w-full': Forces it to respect parent width.
+            - 'overflow-hidden': Cuts off anything that tries to overflow.
+            - 'px-2': Adds a tiny breathing room so text doesn't touch edges.
+        */}
+        <div className="text-center mb-12 w-full max-w-full overflow-hidden px-2">
           
-          {/* FIX 2: FONT SIZE SOLVED 
-             - Removed inline 'fontSize' style completely.
-             - Used 'text-3xl' (30px) for mobile -> Fits on all phones.
-             - Used 'md:text-7xl' (72px) for PC -> Big and bold.
-             - Added 'break-words' -> Prevents text from pushing screen width.
-          */}
-          <h2 
-            className="font-bold text-[#000000] mb-4 drop-shadow-sm leading-tight break-words text-xl md:text-7xl" 
-            style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}
-          >
+          {/* TITLE ITSELF (Clean Standard Font) */}
+          <h2 className="font-bold text-black mb-6 drop-shadow-sm text-4xl md:text-7xl tracking-tight break-words leading-tight">
             Our Workshops
           </h2>
           
@@ -52,9 +52,9 @@ const Courses = ({ addToCart }) => {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-4 py-2 md:px-8 md:py-3 text-sm md:text-xl rounded-full border transition-all duration-300 font-bold ${
+                className={`px-5 py-2 md:px-8 md:py-3 text-sm md:text-xl rounded-full border transition-all duration-300 font-bold ${
                   filter === f
-                    ? "bg-[#D984B5] border-[#D984B5] text-white font-bold shadow-lg"
+                    ? "bg-[#D984B5] border-[#D984B5] text-white font-bold shadow-lg transform scale-105"
                     : "border-[#A9B5D9] text-[#000000] hover:border-[#D984B5] hover:text-[#D984B5] backdrop-blur-sm"
                 }`}
               >
