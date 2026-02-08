@@ -2,7 +2,7 @@
     const express = require("express");
     const router = express.Router();
     const mongoose = require("mongoose");
-    const cloudinary = require("cloudinary").v2;
+    const cloudinary = require("cloudinary");
     const CloudinaryStorage = require("multer-storage-cloudinary");
     const multer = require("multer");
     const nodemailer = require('nodemailer');
@@ -36,7 +36,7 @@
     });
 
         const storage = new CloudinaryStorage({
-        cloudinary: cloudinary,
+        cloudinary: cloudinary.v2,
         params: {
             folder: "art-studio-gallery",
             allowed_formats: ["jpg", "png", "jpeg", "webp"],
