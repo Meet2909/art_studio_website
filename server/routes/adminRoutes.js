@@ -1,9 +1,11 @@
     // server/routes/adminRoutes.js
+    console.log("🔥 ADMIN ROUTES LOADED");
+
     const express = require("express");
     const router = express.Router();
     const mongoose = require("mongoose");
     const cloudinary = require("cloudinary");
-    const { CloudinaryStorage } = require("multer-storage-cloudinary");
+    const CloudinaryStorage = require("multer-storage-cloudinary");
     const multer = require("multer");
     const nodemailer = require('nodemailer');
 
@@ -59,6 +61,7 @@
 
     // Upload Route
         router.post("/gallery", protect, admin, (req, res, next) => {
+            console.log("📩 Upload request reached server");
         // This wrapper catches Multer/Cloudinary errors explicitly
         upload.single("imageFile")(req, res, (err) => {
             if (err) {
