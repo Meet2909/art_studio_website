@@ -41,7 +41,7 @@
     console.log("Uploader exists:", !!cloudinary.v2?.uploader);
 
     const storage = new CloudinaryStorage({
-    cloudinary: cloudinary.v2,
+    cloudinary: cloudinary,
     params: {
         folder: "art-studio-gallery",
         allowed_formats: ["jpg", "png", "jpeg", "webp"],
