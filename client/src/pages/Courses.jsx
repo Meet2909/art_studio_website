@@ -9,7 +9,7 @@ const Courses = ({ addToCart }) => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/user/courses`);
+        const res = await fetch("/api/user/courses");
         const data = await res.json();
         setCourses(data);
       } catch (error) {

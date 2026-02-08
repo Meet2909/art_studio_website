@@ -8,7 +8,7 @@
     useEffect(() => {
         const fetchAboutContent = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/user/about`);
+            const res = await fetch("/api/user/about");
             const data = await res.json();
             setContent(data);
         } catch (error) {
