@@ -4,7 +4,7 @@
     const express = require("express");
     const router = express.Router();
     const mongoose = require("mongoose");
-    const cloudinary = require("cloudinary");
+    const { v2: cloudinary } = require("cloudinary");
     const CloudinaryStorage = require("multer-storage-cloudinary");
     const multer = require("multer");
     const nodemailer = require('nodemailer');
@@ -31,14 +31,14 @@
     };
 
     // --- 1. CLOUDINARY CONFIG ---
-    cloudinary.v2.config({
+    cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
     });
 
         const storage = new CloudinaryStorage({
-        cloudinary: cloudinary.v2,
+        cloudinary: cloudinary,
         params: {
             folder: "art-studio-gallery",
             allowed_formats: ["jpg", "png", "jpeg", "webp"],
