@@ -83,11 +83,14 @@
             return res.status(400).json({ message: "No image file provided." });
         }
 
-        const { path, width, height } = req.file;
+        const imageUrl = req.file.secure_url;
+        const width = req.file.width;
+        const height = req.file.height;
+
 
         const newItem = new GalleryItem({
         title: req.body.title || "Untitled",
-        imageUrl: path,
+        imageUrl: imageUrl,
         width: width ? width.toString() : "400",
         height: height ? height.toString() : "400",
         rounded: req.body.rounded || "rounded-[15px]",
