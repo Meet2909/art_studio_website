@@ -7,7 +7,8 @@
     const [loading, setLoading] = useState(true);
 
     // Dynamic API URL
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const API_URL = isLocal ? "http://localhost:5000" : "";
 
     useEffect(() => {
         fetchArt();
@@ -15,7 +16,7 @@
 
     const fetchArt = async () => {
         try {
-        const res = await fetch(`${API_URL}/api/admin/art`);
+        const res = await fetch(`/api/admin/art`);
         const data = await res.json();
         setArtPieces(data);
         } catch (error) {
