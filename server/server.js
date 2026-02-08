@@ -35,7 +35,7 @@
     app.use("/api/auth", authRoutes);
     app.use('/api/user', userRoutes);
     app.use('/api/user', aboutRoutes);
-    app.use('/api/art', require('./routes/artRoutes'));
+    app.use('/api/art', require('./routes/artroutes'));
 
     // ==========================================
     // 3. FRONTEND SERVING (CRASH PROOF VERSION)
