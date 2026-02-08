@@ -44,8 +44,7 @@
     });
     const upload = multer({ 
         storage,
-  limits: { fileSize: 8 * 1024 * 1024 }, // prevents Render timeout
-});
+        limits: { fileSize: 8 * 1024 * 1024 }, // prevents Render timeout
     });
 
     // --- 2. GALLERY ROUTES (With File Upload) ---
