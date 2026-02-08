@@ -210,7 +210,7 @@
             
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 className="text-4xl font-bold text-white">Admin Dashboard</h1>
+            <h1 className="text-4xl font-bold text-black">Admin Dashboard</h1>
             <div className="flex items-center gap-4">
                 <div className="flex bg-white/5 p-1 rounded-lg overflow-x-auto">
                 {["overview", "store", "orders", "gallery", "courses", "enquiries"].map((tab) => (

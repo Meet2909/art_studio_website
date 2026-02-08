@@ -267,14 +267,22 @@
         try {
             if (!req.file) return res.status(400).json({ message: "No image provided" });
 
+            const imageUrl = req.file.secure_url;
+            const width = req.file.width;
+            const height = req.file.height;
+
             const newArt = new ArtPiece({
                 title: req.body.title,
                 price: req.body.price,
                 category: req.body.category || "Painting",
                 description: req.body.description,
-                image: req.file.secure_url, // Cloudinary URL
+                image: imageUrl, // Cloudinary URL
+
+                width: width ? width.toString() : "400",
+                height: height ? height.toString() : "400",
+                rounded: req.body.rounded || "rounded-[15px]",  
                 inStock: true
-            });
+                });
 
             await newArt.save();
             res.status(201).json(newArt);
