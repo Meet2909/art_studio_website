@@ -4,7 +4,7 @@
     const express = require("express");
     const router = express.Router();
     const mongoose = require("mongoose");
-    const { v2: cloudinary } = require("cloudinary");
+    const cloudinary = require("cloudinary");
     const CloudinaryStorage = require("multer-storage-cloudinary");
     const multer = require("multer");
     const nodemailer = require('nodemailer');
@@ -31,18 +31,21 @@
     };
 
     // --- 1. CLOUDINARY CONFIG ---
-    cloudinary.config({
+    cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
     });
 
-        const storage = new CloudinaryStorage({
-        cloudinary: cloudinary,
-        params: {
-            folder: "art-studio-gallery",
-            allowed_formats: ["jpg", "png", "jpeg", "webp"],
-        },
+    console.log("Cloudinary v2 exists:", !!cloudinary.v2);
+    console.log("Uploader exists:", !!cloudinary.v2?.uploader);
+
+    const storage = new CloudinaryStorage({
+    cloudinary: cloudinary.v2,
+    params: {
+        folder: "art-studio-gallery",
+        allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    },
     });
     const upload = multer({ 
         storage,
