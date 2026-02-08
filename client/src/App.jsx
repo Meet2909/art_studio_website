@@ -17,9 +17,11 @@
   import Corporate from './pages/Corporate';
   import AdminDashboard from './pages/AdminDashboard';
   import Login from './pages/Login';
+  import FloatingWhatsApp from './components/FloatingWhatsApp';
+  import ArtStore from './pages/ArtStore'; // <--- 1. UNCOMMENTED THIS
 
   export default function App() {
-    // 1. FIX: Initialize Page from LocalStorage (or default to 'home')
+    // Initialize Page from LocalStorage (or default to 'home')
     const [currentPage, setCurrentPage] = useState(() => {
         return localStorage.getItem('lastPage') || 'home';
     });
@@ -34,7 +36,7 @@
       return savedUser ? JSON.parse(savedUser) : null;
     });
 
-    // --- 2. NEW: Reusable Function to Fetch Cart ---
+    // Reusable Function to Fetch Cart
     const fetchUserCart = async (userId) => {
         try {
             const res = await fetch(`/api/user/${userId}/cart`);
@@ -47,13 +49,12 @@
         }
     };
 
-    // --- 3. FIX: Fetch Cart on Page Load (Refresh Fix) ---
+    // Fetch Cart on Page Load (Refresh Fix)
     useEffect(() => {
-        // If user is already logged in (from localStorage), fetch their cart immediately
         if (user && user._id) {
             fetchUserCart(user._id);
         }
-    }, []); // Empty dependency array = runs once on mount (refresh)
+    }, []);
 
     const handleLoginSuccess = (userData) => {
       localStorage.setItem('userInfo', JSON.stringify(userData));
@@ -66,7 +67,7 @@
 
     const handleLogout = () => {
       localStorage.removeItem('userInfo');
-      localStorage.removeItem('lastPage'); // Clear saved page on logout
+      localStorage.removeItem('lastPage');
       setUser(null);
       setCart([]); 
       navigateTo('home');
@@ -102,6 +103,7 @@
             price: course.price,
             image: course.image || course.imageUrl, 
             category: course.category || "General",
+            type: course.type || "course", // <--- 2. ADDED THIS (Critical for Cart logic)
         };
 
         const newCart = [...cart, cartItem];
@@ -120,15 +122,13 @@
       }
     };
 
-    // 4. FIX: Clear Cart logic passed to Cart Page
     const clearCart = () => {
         setCart([]);
         if (user) syncCartToDB([], user._id);
     };
 
-    // 5. FIX: Save Page to LocalStorage on Navigation
     const navigateTo = (page) => {
-      localStorage.setItem('lastPage', page); // Remember this page
+      localStorage.setItem('lastPage', page);
       setCurrentPage(page);
       setIsMenuOpen(false);
       window.scrollTo(0, 0);
@@ -147,7 +147,7 @@
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
             </div>
           )}
-  
+
           <Navbar 
             cartCount={cart.length} 
             currentPage={currentPage} 
@@ -167,6 +167,10 @@
             {currentPage === 'contact' && <Contact />}
             {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
             {currentPage === 'admin' && <AdminDashboard />}
+            
+            {/* --- 3. ADDED ART STORE ROUTE --- */}
+            {currentPage === 'art-store' && <ArtStore addToCart={addToCart} />}
+
             {currentPage === 'cart' && (
               <Cart 
                 cart={cart} 
@@ -181,12 +185,14 @@
                 <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
             )} 
           </main>
-  
+
+          <FloatingWhatsApp />
+
           <footer className="relative z-10 glass-card border-t border-white/10 py-12 px-4 mt-auto">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="text-center md:text-left">
                     <h3 className="text-xl font-bold text-black">Chetna's Creative Den</h3>
-                    <p className="text-black text-sm mt-2">© 2024 All Rights Reserved.</p>
+                    <p className="text-black text-sm mt-2">© 2026 All Rights Reserved.</p>
                 </div>
                 <div className="flex gap-6 text-gray-400 font-medium">
                     <button onClick={() => navigateTo('admin')} className="text-black hover:text-grey transition-colors flex items-center gap-1">

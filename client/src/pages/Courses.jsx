@@ -42,7 +42,7 @@ const Courses = ({ addToCart }) => {
         <div className="text-center mb-12 w-full max-w-full overflow-hidden px-2">
           
           {/* TITLE ITSELF (Clean Standard Font) */}
-          <h2 className="font-bold text-black mb-6 drop-shadow-sm text-4xl md:text-5xl tracking-tight break-words leading-tight">
+          <h2 className="font-bold text-blue-800 mb-6 drop-shadow-sm text-4xl md:text-5xl tracking-tight break-words leading-tight" style={{fontFamily: "'Limelight', sans-serif",fontweight: "400",fontstyle: "normal"}}>
             Our Workshops
           </h2>
           

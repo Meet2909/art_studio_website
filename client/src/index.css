@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Limelight&family=Rubik+Doodle+Shadow&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -57,13 +58,6 @@ html, body {
     overflow-x: hidden !important;
     width: 100% !important;
     position: relative;
-  }
-
-  /* 2. Force the "Our Workshops" title to be small */
-  h2 {
-    font-size: 2.5rem !important; /* Forces text to be manageable */
-    line-height: 1.2 !important;
-    word-wrap: break-word !important;
   }
 
   /* 3. Force the Navbar to sit on top of EVERYTHING */

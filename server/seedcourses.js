@@ -34,7 +34,8 @@
         "Introduction of Type of Colours", 
         "Colour Mixing activities",
         "Introduction to Human & Animal Drawing",
-        "Fun with Textures"
+        "Fun with Textures",
+        "Complementary clay class along with Art class"
         ]
     },
     {

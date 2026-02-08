@@ -13,6 +13,7 @@ cart: [
     price: Number,
     image: String,
     category: String,
+    type: { type: String, default: 'course' }
       // We can extend this later for attendee names if needed
     }
 ],

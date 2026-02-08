@@ -1,5 +1,5 @@
     import React from "react";
-    import { ArrowRight, Brush, Shapes, Palette } from "lucide-react";
+    import { ArrowRight, Brush, Shapes, Palette, Building2 } from "lucide-react";
     import HomeGallerySection from "../components/HomeGallerySection"; 
 
     const Home = ({ navigateTo }) => (
@@ -38,11 +38,11 @@
         <div className="py-20 md:py-32 px-4">
             <div className="flex justify-center mb-12">
                 <span className="px-8 py-2 text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff70c4] to-[#7ad1ff]" style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
-                    What we teach
+                    What we Offer
                 </span>
             </div>
             
-        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
             {[
             {
                 icon: Brush,
@@ -50,6 +50,7 @@
                 desc: "Oil, Acrylic & Watercolors",
             },
             { icon: Shapes, title: "Sculpting", desc: "Clay modeling & Pottery" },
+            { icon: Building2, title: "Corporate Workshops", desc: "Team activities & Stress Relief" }
             ].map((cat, idx) => (
             <div
                 key={idx}

@@ -14,6 +14,7 @@
     const AboutPage = require('../models/AboutPage');
     const Course = require("../models/Course");
     const Enquiry = require("../models/Enquiry"); // Import Enquiry
+    const ArtPiece = require("../models/ArtPiece");
 
     const { protect, admin } = require("../middleware/authMiddleware");
 
@@ -234,5 +235,50 @@
             res.status(500).json({ message: error.message });
         }
         });
+
+    router.get("/art", async (req, res) => {
+        try {
+            const art = await ArtPiece.find({}).sort({ createdAt: -1 });
+            res.json(art);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
+
+    // B. Upload New Art (Reuses 'upload' middleware from Gallery)
+    router.post("/art", protect, admin, (req, res, next) => {
+        upload.single("imageFile")(req, res, (err) => {
+            if (err) return res.status(500).json({ message: "Upload Error" });
+            next();
+        });
+    }, async (req, res) => {
+        try {
+            if (!req.file) return res.status(400).json({ message: "No image provided" });
+
+            const newArt = new ArtPiece({
+                title: req.body.title,
+                price: req.body.price,
+                category: req.body.category || "Painting",
+                description: req.body.description,
+                image: req.file.path, // Cloudinary URL
+                inStock: true
+            });
+
+            await newArt.save();
+            res.status(201).json(newArt);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
+
+    // C. Delete Art
+    router.delete("/art/:id", protect, admin, async (req, res) => {
+        try {
+            await ArtPiece.findByIdAndDelete(req.params.id);
+            res.json({ message: "Art deleted" });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    });
     
     module.exports = router;

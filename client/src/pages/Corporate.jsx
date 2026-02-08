@@ -39,15 +39,15 @@
         <div className="relative pt-32 pb-20 px-4 min-h-screen">
         {/* 1. HERO SECTION */}
         <div className="max-w-[90rem] mx-auto text-center mb-20">
-            <h1
-            className="text-xl sm:text-3xl md:text-4xl font-bold text-black mb-8 leading-tight drop-shadow-2xl"
-            style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}
+            <h2
+            className="text-4xl sm:text-3xl md:text-5xl font-bold text-blue-800 mb-8 leading-tight drop-shadow-2xl"
+            style={{fontFamily: "'Limelight', sans-serif",fontweight: "400",fontstyle: "normal"}}
             >
             Corporate <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0095] to-[#00a6ff]" style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#00a6ff]" style={{fontFamily: "'Limelight', sans-serif",fontweight: "400",fontstyle: "normal"}}>
                 Art Workshop
             </span>
-            </h1>
+            </h2>
             
             <div className="max-w-4xl mx-auto mb-12">
                 <div className="relative overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg rounded-3xl p-8 md:p-12 transition-transform duration-300 hover:scale-[1.01]">

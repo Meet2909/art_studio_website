@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+    /* eslint-disable no-unused-vars */
     import React, { useState } from "react";
     import {
     ShoppingCart,
@@ -330,26 +330,28 @@
                     </div>
                     </div>
 
-                    {/* Attendee Details Input */}
+                    {/* Attendee Details Input - CONDITIONALLY RENDERED */}
+                    {(item.category !== 'Painting' && item.type !== 'art') && (
                     <div className="bg-black/20 rounded-xl p-4 border border-white/5">
-                    <h4 className="text-sm font-bold text-black mb-3 flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-black mb-3 flex items-center gap-2">
                         <User size={14} /> Attendee Details
-                    </h4>
-                    <div className="space-y-3">
+                        </h4>
+                        <div className="space-y-3">
                         {Array.from({ length: item.quantity }).map((_, index) => (
-                        <div key={`${itemId}-${index}`} className="flex items-center gap-3">
+                            <div key={`${itemId}-${index}`} className="flex items-center gap-3">
                             <span className="text-xs text-black w-6 font-bold">#{index + 1}</span>
                             <input
-                            type="text"
-                            placeholder={`Name for Student ${index + 1}`}
-                            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[#D984B5] placeholder-gray-500"
-                            value={attendeeNames[`${itemId}-${index}`] || ""}
-                            onChange={(e) => handleNameChange(itemId, index, e.target.value)}
+                                type="text"
+                                placeholder={`Name for Student ${index + 1}`}
+                                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[#D984B5] placeholder-gray-500"
+                                value={attendeeNames[`${itemId}-${index}`] || ""}
+                                onChange={(e) => handleNameChange(itemId, index, e.target.value)}
                             />
-                        </div>
+                            </div>
                         ))}
+                        </div>
                     </div>
-                    </div>
+                    )}
                 </div>
                 );
             })}
@@ -449,15 +451,10 @@
             </div>
         )}
 
-            {/* --- REFUND POLICY CONFIRMATION MODAL (Friendly Version) --- */}
+        {/* --- REFUND POLICY CONFIRMATION MODAL (Friendly Version) --- */}
         {showRefundWarning && (
-            // 1. Change background from Dark Black to Light & Airy (Lavendar Tint)
             <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#fdf2f8]/90 backdrop-blur-md transition-all">
-            
-            {/* 2. Card: Pure White with Soft Shadows & Rounded Corners */}
             <div className="bg-white w-full max-w-sm p-8 rounded-[2.5rem] shadow-2xl border-4 border-white relative animate-in fade-in zoom-in duration-300 ring-1 ring-black/5">
-                
-                {/* Close Button - Soft Gray */}
                 <button
                 onClick={() => setShowRefundWarning(false)}
                 className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors bg-gray-50 p-2 rounded-full hover:bg-gray-100"
@@ -466,22 +463,17 @@
                 </button>
 
                 <div className="flex flex-col items-center text-center">
-                
-                {/* 3. Icon: Gradient 'Info' bubble instead of Red Triangle */}
                 <div className="bg-gradient-to-tr from-[#D984B5] to-[#AEE2FF] p-4 rounded-full mb-6 shadow-lg shadow-[#D984B5]/30 transform hover:scale-110 transition-transform duration-500">
                     <Info size={40} className="text-white" />
                 </div>
                 
-                {/* 4. Headline: Welcoming instead of alarming */}
                 <h2 className="text-2xl font-bold text-gray-800 mb-3">Just a Quick Note!</h2>
                 
-                {/* 5. Text: Clear but gentle */}
                 <p className="text-gray-600 mb-8 leading-relaxed text-[15px]">
                     We are so excited to have you! ✨ <br/>
                     To secure your spot, please confirm you understand that this enrollment is <span className="font-bold text-[#D984B5]">non-refundable</span>.
                 </p>
 
-                {/* 6. Buttons: Playful and inviting */}
                 <div className="flex gap-3 w-full">
                     <button
                     onClick={() => setShowRefundWarning(false)}
