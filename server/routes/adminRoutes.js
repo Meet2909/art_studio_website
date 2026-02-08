@@ -272,7 +272,7 @@
                 price: req.body.price,
                 category: req.body.category || "Painting",
                 description: req.body.description,
-                image: req.file.path, // Cloudinary URL
+                image: req.file.secure_url, // Cloudinary URL
                 inStock: true
             });
 
