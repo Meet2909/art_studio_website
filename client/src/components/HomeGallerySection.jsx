@@ -16,7 +16,7 @@
     useEffect(() => {
         const fetchFeaturedImages = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/admin/gallery`);
+            const res = await fetch("/api/admin/gallery");
             
             // Safety Check
             const contentType = res.headers.get("content-type");
