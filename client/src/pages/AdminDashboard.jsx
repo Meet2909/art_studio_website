@@ -218,7 +218,7 @@
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-2 rounded-md capitalize font-medium transition-colors whitespace-nowrap ${
-                        activeTab === tab ? "bg-[#D984B5] text-black" : "text-black hover:text-white"
+                        activeTab === tab ? "bg-[#D984B5] text-black" : "text-black hover:text-[#84d2ff]"
                     }`}
                     >
                     {tab === 'store' ? 'Art Store' : tab}
@@ -271,8 +271,10 @@
                     >
                     <option value="Painting">Painting</option>
                     <option value="Sketch">Sketch</option>
-                    <option value="Digital">Digital Art</option>
                     <option value="Sculpture">Sculpture</option>
+                    <option value="Oil Painting">Oil Painting</option>
+                    <option value="Portrait">Portrait</option>
+
                     </select>
                     <input 
                     type="file" accept="image/*" required
