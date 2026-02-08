@@ -3,7 +3,7 @@
     const router = express.Router();
     const mongoose = require("mongoose");
     const cloudinary = require("cloudinary");
-    const CloudinaryStorage = require("multer-storage-cloudinary");
+    const { CloudinaryStorage } = require("multer-storage-cloudinary");
     const multer = require("multer");
     const nodemailer = require('nodemailer');
 
@@ -42,7 +42,11 @@
             allowed_formats: ["jpg", "png", "jpeg", "webp"],
         },
     });
-    const upload = multer({ storage: storage });
+    const upload = multer({ 
+        storage,
+  limits: { fileSize: 8 * 1024 * 1024 }, // prevents Render timeout
+});
+    });
 
     // --- 2. GALLERY ROUTES (With File Upload) ---
     router.get("/gallery", async (req, res) => {
