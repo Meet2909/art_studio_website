@@ -115,7 +115,7 @@
         const toastId = toast.loading("Uploading Art...");
 
         try {
-        const res = await fetch(`${API_URL}/api/admin/art`, {
+        const res = await fetch(`/api/admin/art`, {
             method: "POST",
             headers: { Authorization: `Bearer ${user.token}` },
             body: formData,
