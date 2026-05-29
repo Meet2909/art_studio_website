@@ -9,7 +9,7 @@
         <div className="relative z-10 text-center px-4 max-w-[90rem] mx-auto w-full">
             
             {/* --- BANNER IMAGE UPDATE --- */}
-            <div className="flex justify-center mb-8 md:mb-12">
+            <div className="flex justify-center mb-8 md:mb-8">
                 <img 
                     src="/Banner2.png" 
                     alt="A Courtyard of Endless Creativity" 
@@ -37,12 +37,12 @@
         {/* FEATURES SECTION */}
         <div className="py-20 md:py-32 px-4">
             <div className="flex justify-center mb-12">
-                <span className="px-8 py-2 text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff70c4] to-[#7ad1ff]" style={{ fontFamily: "'Rubik Doodle Shadow', system-ui" }}>
+                <span className="px-8 py-2 text-5xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff5454] to-[#e9e787]" style={{ fontFamily: "'Kaushan Script', cursive" }}>
                     What we Offer
                 </span>
             </div>
             
-        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+        <div className="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 ">
             {[
             {
                 icon: Brush,

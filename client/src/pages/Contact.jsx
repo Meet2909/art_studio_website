@@ -1,3 +1,4 @@
+    // client/src/pages/Contact.jsx
     import React, { useState } from "react";
     import {
     MapPin,
@@ -6,6 +7,7 @@
     Linkedin,
     Instagram,
     Facebook,
+    Youtube // <-- ADDED IMPORT
     } from "lucide-react";
 
     const Contact = () => {
@@ -29,7 +31,6 @@
         } else {
             setStatus("error");
         }
-        // eslint-disable-next-line no-unused-vars
         } catch (error) {
         setStatus("error");
         }
@@ -46,7 +47,7 @@
             {/* --- LEFT COLUMN: Contact Info --- */}
             <div className="space-y-6">
                 
-                {/* Visit Us (Google Maps Link) */}
+                {/* Visit Us */}
                 <div className="flex items-center gap-4 text-[#ebd8fd]">
                 <a 
                     href="https://maps.google.com/?q=1218,+2nd+Floor,+Sector+5,+Vasundhara,+Ghaziabad,+Uttar+Pradesh+201012"
@@ -68,11 +69,11 @@
                 <div className="flex items-center gap-4 text-[#f8f0ff]">
                 <a href="tel:+919899400835" className="flex items-center gap-4 hover:opacity-75 transition-opacity w-full">
                     <div className="p-3 bg-[#715b7e] rounded-full text-[#f8a6d6] shrink-0">
-                        <Phone size={20} />
+                    <Phone size={20} />
                     </div>
                     <div>
-                        <p className="font-bold text-[#32293a]">Call Us</p>
-                        <p className="text-black">+91 98994 00835</p>
+                    <p className="font-bold text-[#32293a]">Call Us</p>
+                    <p className="text-black">+91 98994 00835</p>
                     </div>
                 </a>
                 </div>
@@ -81,11 +82,11 @@
                 <div className="flex items-center gap-4 text-[#eddaff]">
                 <a href="mailto:info@chetnascreativeden.com" className="flex items-center gap-4 hover:opacity-75 transition-opacity w-full">
                     <div className="p-3 bg-[#715b7e] rounded-full text-[#f990cd] shrink-0">
-                        <Mail size={20} />
+                    <Mail size={20} />
                     </div>
                     <div>
-                        <p className="font-bold text-[#32293a]">Email Us</p>
-                        <p className="text-black break-all">chetnascreativeden@gmail.com</p>
+                    <p className="font-bold text-[#32293a]">Email Us</p>
+                    <p className="text-black break-all">chetnascreativeden@gmail.com</p>
                     </div>
                 </a>
                 </div>
@@ -93,7 +94,7 @@
                 {/* Social Media Links */}
                 <div className="pt-6">
                 <h3 className="text-[#32293a] font-bold mb-4">Follow Us</h3>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                     {/* LinkedIn */}
                     <a 
                     href="https://www.linkedin.com/company/chetna-s-creative-den/about/" 
@@ -114,20 +115,30 @@
                     <Instagram size={20} />
                     </a>
 
-                    {/* Facebook (Restored) */}
+                    {/* Facebook */}
                     <a 
-                        href="https://www.facebook.com/chetna.aerongautam" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-3 bg-[#AEE2FF] rounded-full text-[#3D2C4D] hover:scale-110 transition-transform flex items-center justify-center"
+                    href="https://www.facebook.com/chetna.aerongautam" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 bg-[#AEE2FF] rounded-full text-[#3D2C4D] hover:scale-110 transition-transform flex items-center justify-center"
                     >
-                        <Facebook size={20} />
+                    <Facebook size={20} />
+                    </a>
+
+                    {/* YouTube (NEW) */}
+                    <a 
+                    href="https://www.youtube.com/@ChetnasCreativeDen-t6h" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 bg-[#ff0000]/20 rounded-full text-[#ff0000] hover:bg-[#ff0000] hover:text-white hover:scale-110 transition-all flex items-center justify-center"
+                    >
+                    <Youtube size={20} />
                     </a>
                 </div>
                 </div>
             </div>
 
-            {/* --- RIGHT COLUMN: Working Contact Form --- */}
+            {/* --- RIGHT COLUMN: Form --- */}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                 type="text"

@@ -1,6 +1,6 @@
     import React, { useState, useEffect } from "react";
     import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
-
+    import { Youtube } from "lucide-react";
     const About = () => {
     const [content, setContent] = useState(null);
     const [loading, setLoading] = useState(true);

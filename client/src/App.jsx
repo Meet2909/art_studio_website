@@ -6,6 +6,8 @@
   import Navbar from './components/Navbar';
   import Background from './components/Background';
   import DotGrid from './components/DotGrid';
+  import CurvedLoop from './components/CurvedLoop';
+
 
   // Pages
   import Home from './pages/Home';
@@ -18,7 +20,8 @@
   import AdminDashboard from './pages/AdminDashboard';
   import Login from './pages/Login';
   import FloatingWhatsApp from './components/FloatingWhatsApp';
-  import ArtStore from './pages/ArtStore'; // <--- 1. UNCOMMENTED THIS
+  import ArtStore from './pages/ArtStore';
+  import SummerCamp from './pages/SummerCamp';
 
   export default function App() {
     // Initialize Page from LocalStorage (or default to 'home')
@@ -158,6 +161,15 @@
             user={user}                 
             handleLogout={handleLogout} 
           />
+
+          <div className="relative z-20 mt-20 h-15 md:h-24 overflow-visible"> {/* mt-20 offsets the fixed navbar */}
+            <CurvedLoop 
+              marqueeText="✦ SUMMER WORKSHOP 2026 ✦ CLICK HERE TO REGISTER ✦"
+              speed={1.5}
+              className="text-[#fe6dc2] drop-shadow-md"
+              onClick={() => navigateTo('summer-camp')} 
+            />
+          </div>
           
           <main className="relative z-10 transition-all duration-500 ease-in-out">
             {currentPage === 'home' && <Home navigateTo={navigateTo} />}
@@ -167,6 +179,7 @@
             {currentPage === 'contact' && <Contact />}
             {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
             {currentPage === 'admin' && <AdminDashboard />}
+            {currentPage === 'summer-camp' && <SummerCamp />}
             
             {/* --- 3. ADDED ART STORE ROUTE --- */}
             {currentPage === 'art-store' && <ArtStore addToCart={addToCart} />}

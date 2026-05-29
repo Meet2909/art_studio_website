@@ -1,7 +1,7 @@
     import React, { useState } from "react";
     import {
     Users, ShoppingBag, DollarSign, RefreshCw, Lock, Trash2, Plus, 
-    Image as ImageIcon, Edit, MessageSquare, Save, X, LogOut, Palette
+    Image as ImageIcon, Edit, MessageSquare, Save, X, LogOut, Palette, Phone, MapPin
     } from "lucide-react";
     import toast from "react-hot-toast"; 
 
@@ -185,8 +185,8 @@
                 </div>
                 <h2 className="text-2xl font-bold text-black mb-6">Admin Portal</h2>
                 <form onSubmit={handleLogin} className="space-y-4">
-                    <input type="email" placeholder="Admin Email" className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#D984B5]" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" placeholder="Password" className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#D984B5]" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="email" placeholder="Admin Email" className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-black focus:outline-none focus:border-[#D984B5]" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="password" placeholder="Password" className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-black focus:outline-none focus:border-[#D984B5]" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     <button className="w-full bg-[#D984B5] hover:bg-white hover:text-[#3D2C4D] text-black font-bold py-3 rounded-lg transition-colors">Login</button>
                 </form>
                 </div>
@@ -248,49 +248,57 @@
             )}
 
             {/* --- TAB: ART STORE (NEW) --- */}
-            {activeTab === "store" && (
-            <div className="space-y-8">
-                <div className="glass-card p-8 rounded-3xl border border-white/10">
-                <h2 className="text-2xl font-bold text-black mb-6 flex items-center gap-2">
-                    <Palette className="text-[#D984B5]" /> Add New Artwork
-                </h2>
-                <form onSubmit={handleAddArt} className="grid md:grid-cols-2 gap-4">
-                    <input 
-                    type="text" placeholder="Artwork Title" required
-                    className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
-                    value={newArt.title} onChange={(e)=>setNewArt({...newArt, title: e.target.value})}
-                    />
-                    <input 
-                    type="number" placeholder="Price (₹)" required
-                    className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
-                    value={newArt.price} onChange={(e)=>setNewArt({...newArt, price: e.target.value})}
-                    />
-                    <select 
-                    className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
-                    value={newArt.category} onChange={(e)=>setNewArt({...newArt, category: e.target.value})}
-                    >
-                    <option value="Painting">Painting</option>
-                    <option value="Sketch">Sketch</option>
-                    <option value="Sculpture">Sculpture</option>
-                    <option value="Oil Painting">Oil Painting</option>
-                    <option value="Portrait">Portrait</option>
+                {activeTab === "store" && (
+                <div className="space-y-8">
+                    <div className="glass-card p-8 rounded-3xl border border-white/10">
+                    <h2 className="text-2xl font-bold text-black mb-6 flex items-center gap-2">
+                        <Palette className="text-[#D984B5]" /> Add New Item to Store
+                    </h2>
+                    <form onSubmit={handleAddArt} className="grid md:grid-cols-2 gap-4">
+                        <input 
+                        type="text" placeholder="Item Title" required
+                        className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                        value={newArt.title} onChange={(e)=>setNewArt({...newArt, title: e.target.value})}
+                        />
+                        <input 
+                        type="number" placeholder="Price (₹)" required
+                        className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                        value={newArt.price} onChange={(e)=>setNewArt({...newArt, price: e.target.value})}
+                        />
+                        
+                        {/* --- UPDATED CATEGORY DROPDOWN --- */}
+                        <select 
+                        className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                        value={newArt.category} onChange={(e)=>setNewArt({...newArt, category: e.target.value})}
+                        >
+                        <optgroup label="Artworks">
+                            <option value="Painting">Painting</option>
+                            <option value="Sketch">Sketch</option>
+                            <option value="Sculpture">Sculpture</option>
+                            <option value="Oil Painting">Oil Painting</option>
+                            <option value="Portrait">Portrait</option>
+                        </optgroup>
+                        <optgroup label="Products">
+                            <option value="Stationary">Stationary</option>
+                            <option value="Craft">Craft</option>
+                        </optgroup>
+                        </select>
 
-                    </select>
-                    <input 
-                    type="file" accept="image/*" required
-                    className="bg-white/5 border border-white/10 rounded-lg p-3 text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#D984B5] file:text-white"
-                    onChange={(e)=>setNewArt({...newArt, file: e.target.files[0]})}
-                    />
-                    <textarea 
-                    placeholder="Description"
-                    className="md:col-span-2 bg-white/5 border border-white/10 rounded-lg p-3 text-black"
-                    value={newArt.description} onChange={(e)=>setNewArt({...newArt, description: e.target.value})}
-                    />
-                    <button className="md:col-span-2 bg-[#D984B5] text-black font-bold py-3 rounded-lg hover:bg-white transition-colors">
-                    Add to Store
-                    </button>
-                </form>
-                </div>
+                        <input 
+                        type="file" accept="image/*" required
+                        className="bg-white/5 border border-white/10 rounded-lg p-3 text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#D984B5] file:text-white"
+                        onChange={(e)=>setNewArt({...newArt, file: e.target.files[0]})}
+                        />
+                        <textarea 
+                        placeholder="Description"
+                        className="md:col-span-2 bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                        value={newArt.description} onChange={(e)=>setNewArt({...newArt, description: e.target.value})}
+                        />
+                        <button className="md:col-span-2 bg-[#D984B5] text-black font-bold py-3 rounded-lg hover:bg-white transition-colors">
+                        Add to Store
+                        </button>
+                    </form>
+                    </div>
 
                 {/* List of Art Pieces */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -315,35 +323,77 @@
             )}
 
             {/* --- TAB: ORDERS --- */}
-            {activeTab === "orders" && (
-            <div className="glass-card p-8 rounded-3xl border border-white/10 overflow-hidden overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                <thead>
-                    <tr className="text-black border-b border-white/10">
-                    <th className="p-4">Order Info</th>
-                    <th className="p-4">Customer</th>
-                    <th className="p-4">Items</th>
-                    <th className="p-4 text-right">Total</th>
-                    </tr>
-                </thead>
-                <tbody className="text-black">
-                    {orders.map((order) => (
-                    <tr key={order._id} className="border-b border-white/5 hover:bg-white/5">
-                        <td className="p-4">
-                        <span className="font-mono text-[#D984B5] text-sm">#{order._id.slice(-6)}</span>
-                        <div className="text-xs">{new Date(order.createdAt).toLocaleDateString()}</div>
-                        </td>
-                        <td className="p-4">{order.userEmail}</td>
-                        <td className="p-4">
-                        {order.items.map((i,idx) => <div key={idx} className="text-sm">{i.title}</div>)}
-                        </td>
-                        <td className="p-4 text-right font-bold">₹{order.totalAmount}</td>
-                    </tr>
-                    ))}
-                </tbody>
-                </table>
-            </div>
-            )}
+                {activeTab === "orders" && (
+                <div className="glass-card p-8 rounded-3xl border border-white/10 overflow-hidden overflow-x-auto">
+                    <table className="w-full text-left border-collapse min-w-[900px]">
+                    <thead>
+                        <tr className="text-black border-b border-black/10">
+                        <th className="p-4">Order Info</th>
+                        <th className="p-4">Customer</th>
+                        <th className="p-4">Shipping Details</th>
+                        <th className="p-4">Items</th>
+                        <th className="p-4 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-black">
+                        {orders.map((order) => (
+                        <tr key={order._id} className="border-b border-black/5 hover:bg-black/5">
+                            {/* Order ID & Date */}
+                            <td className="p-4 align-top">
+                            <span className="font-mono text-[#D984B5] font-bold text-sm">
+                                #{order._id.slice(-6).toUpperCase()}
+                            </span>
+                            <div className="text-xs mt-1 text-gray-600">
+                                {new Date(order.createdAt).toLocaleDateString()}
+                            </div>
+                            </td>
+
+                            {/* Customer Email & Phone */}
+                            <td className="p-4 align-top">
+                            <div className="font-bold text-sm">{order.userEmail}</div>
+                            {order.phone && (
+                                <div className="text-xs text-gray-600 mt-2 flex items-center gap-1.5">
+                                    <Phone size={14} className="text-[#D984B5]" /> {order.phone}
+                                </div>
+                            )}
+                            </td>
+
+                            {/* Shipping Address */}
+                            <td className="p-4 align-top">
+                            {order.address ? (
+                                <div className="text-sm text-gray-700 flex items-start gap-1.5 max-w-[250px] break-words">
+                                    <MapPin size={16} className="mt-0.5 shrink-0 text-[#D984B5]" />
+                                    <span className="leading-snug">
+                                    {/* Handles both string addresses and Razorpay address objects */}
+                                    {typeof order.address === 'object' 
+                                        ? Object.values(order.address).filter(Boolean).join(", ") 
+                                        : order.address}
+                                    </span>
+                                </div>
+                            ) : (
+                                <span className="text-sm text-gray-400 italic">No Address Provided</span>
+                            )}
+                            </td>
+
+                            {/* Order Items */}
+                            <td className="p-4 align-top">
+                            {order.items.map((i, idx) => (
+                                <div key={idx} className="text-sm font-medium mb-1">
+                                • {i.title}
+                                </div>
+                            ))}
+                            </td>
+
+                            {/* Total */}
+                            <td className="p-4 text-right font-bold text-lg align-top">
+                            ₹{order.totalAmount}
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    </table>
+                </div>
+                )}
 
             {/* --- TAB: GALLERY --- */}
             {activeTab === "gallery" && (
