@@ -40,11 +40,11 @@
         {/* 1. HERO SECTION */}
         <div className="max-w-[90rem] mx-auto text-center mb-20">
             <h2
-            className="text-4xl sm:text-3xl md:text-5xl font-bold text-blue-800 mb-8 leading-tight drop-shadow-2xl"
-            style={{fontFamily: "'Limelight', sans-serif",fontweight: "400",fontstyle: "normal"}}
+            className="text-6xl sm:text-3xl md:text-8xl font-bold text-blue-800 mb-8 leading-tight drop-shadow-2xl"
+            style={{ fontFamily: "'Kaushan Script', cursive" }}
             >
             Corporate <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#00a6ff]" style={{fontFamily: "'Limelight', sans-serif",fontweight: "400",fontstyle: "normal"}}>
+            <span className="text-6xl sm:text-3xl md:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#00a6ff]" style={{ fontFamily: "'Kaushan Script', cursive" }}>
                 Art Workshop
             </span>
             </h2>

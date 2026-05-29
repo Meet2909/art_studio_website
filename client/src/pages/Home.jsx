@@ -5,8 +5,8 @@ import HomeGallerySection from "../components/HomeGallerySection";
 const Home = ({ navigateTo }) => (
 <div className="relative pt-20">
     {/* HERO SECTION */}
-    <div className="relative min-h-[60vh] md:min-h-[80vh] flex flex-col items-center justify-center overflow-hidden">
-    <div className="relative z-10 text-center px-4 max-w-[90rem] mx-auto w-full">
+    <div className="relative min-h-[40vh] md:min-h-[20vh] flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative z-5 text-center px-4 max-w-[90rem] mx-auto w-full">
         
         {/* --- BANNER IMAGE UPDATE --- */}
         <div className="flex justify-center mb-8 md:mb-8">

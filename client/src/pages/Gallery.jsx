@@ -23,13 +23,13 @@ import React, { useEffect, useState } from "react";
     }, []);
 
     return (
-        <div className="pt-32 pb-20 min-h-screen bg-black/30">
+        <div className="pt-32 pb-20 min-h-screen">
         <div className="max-w-[90rem] mx-auto mb-16 px-4">
-            <h2 className="lg:text-4xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff83cb] via-[#AEE2FF] to-[#f4507e] text-center pb-2">
+            <h2 className="lg:text-8xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ff83cb] via-[#AEE2FF] to-[#f4507e] text-center pb-2" style={{ fontFamily: "'Kaushan Script', cursive" }}>
             Student Gallery
             </h2>
             <br />
-            <p className="text-gray-0 text-center text-3xl max-w-2xl mx-auto">
+            <p className="text-black text-center text-3xl max-w-2xl mx-auto">
             Explore the creative perspectives of our students.
             </p>
         </div>

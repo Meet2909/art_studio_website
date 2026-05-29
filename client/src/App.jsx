@@ -1,222 +1,241 @@
-  import React, { useState, useEffect } from 'react';
-  import { User } from 'lucide-react';
-  import { Toaster, toast } from 'react-hot-toast';
+import React, { useState, useEffect } from 'react';
+import { User } from 'lucide-react';
+import { Toaster, toast } from 'react-hot-toast';
 
-  // Components
-  import Navbar from './components/Navbar';
-  import Background from './components/Background';
-  import DotGrid from './components/DotGrid';
-  import CurvedLoop from './components/CurvedLoop';
+// Components
+import Navbar from './components/Navbar';
+import Background from './components/Background';
+import DotGrid from './components/DotGrid';
+import CurvedLoop from './components/CurvedLoop';
 
+// Pages
+import Home from './pages/Home';
+import Courses from './pages/Courses';
+import Gallery from './pages/Gallery';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Cart from './pages/Cart';
+import Corporate from './pages/Corporate';
+import AdminDashboard from './pages/AdminDashboard';
+import Login from './pages/Login';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
+import ArtStore from './pages/ArtStore';
+import SummerCamp from './pages/SummerCamp';
 
-  // Pages
-  import Home from './pages/Home';
-  import Courses from './pages/Courses';
-  import Gallery from './pages/Gallery';
-  import About from './pages/About';
-  import Contact from './pages/Contact';
-  import Cart from './pages/Cart';
-  import Corporate from './pages/Corporate';
-  import AdminDashboard from './pages/AdminDashboard';
-  import Login from './pages/Login';
-  import FloatingWhatsApp from './components/FloatingWhatsApp';
-  import ArtStore from './pages/ArtStore';
-  import SummerCamp from './pages/SummerCamp';
+export default function App() {
+  // --- 1. NEW: Check URL for initial page load ---
+  const getInitialPage = () => {
+    const path = window.location.pathname.substring(1); // removes the '/'
+    // Prioritize the URL path. If empty, fall back to localStorage, then 'home'.
+    return path || localStorage.getItem('lastPage') || 'home';
+  };
 
-  export default function App() {
-    // Initialize Page from LocalStorage (or default to 'home')
-    const [currentPage, setCurrentPage] = useState(() => {
-        return localStorage.getItem('lastPage') || 'home';
-    });
+  const [currentPage, setCurrentPage] = useState(getInitialPage());
+  const [cart, setCart] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [bgType] = useState('dots'); 
 
-    const [cart, setCart] = useState([]);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [bgType] = useState('dots'); 
+  // Initialize user from LocalStorage
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('userInfo');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
-    // Initialize user from LocalStorage
-    const [user, setUser] = useState(() => {
-      const savedUser = localStorage.getItem('userInfo');
-      return savedUser ? JSON.parse(savedUser) : null;
-    });
-
-    // Reusable Function to Fetch Cart
-    const fetchUserCart = async (userId) => {
-        try {
-            const res = await fetch(`/api/user/${userId}/cart`);
-            if (res.ok) {
-                const dbCart = await res.json();
-                setCart(dbCart); 
-            }
-        } catch (err) {
-            console.error("Error loading cart:", err);
-        }
+  // --- 2. NEW: Listen for the Browser's Back/Forward Buttons ---
+  useEffect(() => {
+    const handlePopState = () => {
+      // Whenever the user clicks back/forward, read the URL and update React state
+      const newPage = getInitialPage();
+      setCurrentPage(newPage);
+      localStorage.setItem('lastPage', newPage);
     };
 
-    // Fetch Cart on Page Load (Refresh Fix)
-    useEffect(() => {
-        if (user && user._id) {
-            fetchUserCart(user._id);
-        }
-    }, []);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
-    const handleLoginSuccess = (userData) => {
-      localStorage.setItem('userInfo', JSON.stringify(userData));
-      setUser(userData);
-      navigateTo('home'); 
-      
-      // Fetch cart immediately after login
-      fetchUserCart(userData._id);
-    };
-
-    const handleLogout = () => {
-      localStorage.removeItem('userInfo');
-      localStorage.removeItem('lastPage');
-      setUser(null);
-      setCart([]); 
-      navigateTo('home');
-      toast.success("Logged out successfully");
-    };
-
-    const syncCartToDB = async (newCart, userId) => {
-      if (!userId) return;
+  // Reusable Function to Fetch Cart
+  const fetchUserCart = async (userId) => {
       try {
-          await fetch(`/api/user/${userId}/cart`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ cart: newCart })
+          const res = await fetch(`/api/user/${userId}/cart`);
+          if (res.ok) {
+              const dbCart = await res.json();
+              setCart(dbCart); 
+          }
+      } catch (err) {
+          console.error("Error loading cart:", err);
+      }
+  };
+
+  // Fetch Cart on Page Load (Refresh Fix)
+  useEffect(() => {
+      if (user && user._id) {
+          fetchUserCart(user._id);
+      }
+  }, []);
+
+  const handleLoginSuccess = (userData) => {
+    localStorage.setItem('userInfo', JSON.stringify(userData));
+    setUser(userData);
+    navigateTo('home'); 
+    
+    // Fetch cart immediately after login
+    fetchUserCart(userData._id);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('lastPage');
+    setUser(null);
+    setCart([]); 
+    navigateTo('home');
+    toast.success("Logged out successfully");
+  };
+
+  const syncCartToDB = async (newCart, userId) => {
+    if (!userId) return;
+    try {
+        await fetch(`/api/user/${userId}/cart`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart: newCart })
+        });
+    } catch (error) {
+        console.error("Network error syncing cart:", error);
+    }
+  };
+
+  const addToCart = (course) => {
+      if (!user) {
+          toast.error("Please login to enroll", {
+              icon: '🔒',
+              style: { borderRadius: '10px', background: '#333', color: '#fff' },
           });
-      } catch (error) {
-          console.error("Network error syncing cart:", error);
+          navigateTo('login');
+          return; 
       }
-    };
 
-    const addToCart = (course) => {
-        if (!user) {
-            toast.error("Please login to enroll", {
-                icon: '🔒',
-                style: { borderRadius: '10px', background: '#333', color: '#fff' },
-            });
-            navigateTo('login');
-            return; 
-        }
+      const cartItem = {
+          id: course._id || course.id,      
+          title: Array.isArray(course.title) ? course.title.join(" ") : course.title,
+          price: course.price,
+          image: course.image || course.imageUrl, 
+          category: course.category || "General",
+          type: course.type || "course",
+      };
 
-        const cartItem = {
-            id: course._id || course.id,      
-            title: Array.isArray(course.title) ? course.title.join(" ") : course.title,
-            price: course.price,
-            image: course.image || course.imageUrl, 
-            category: course.category || "General",
-            type: course.type || "course", // <--- 2. ADDED THIS (Critical for Cart logic)
-        };
+      const newCart = [...cart, cartItem];
+      setCart(newCart);
+      syncCartToDB(newCart, user._id);
+      toast.success("Added to Cart!");
+  };
 
-        const newCart = [...cart, cartItem];
-        setCart(newCart);
-        syncCartToDB(newCart, user._id);
-        toast.success("Added to Cart!");
-    };
+  const removeFromCart = (courseId) => {
+    const index = cart.findIndex(item => (item.id || item._id) === courseId);
+    if (index !== -1) {
+      const newCart = [...cart];
+      newCart.splice(index, 1);
+      setCart(newCart);
+      if (user) syncCartToDB(newCart, user._id);
+    }
+  };
 
-    const removeFromCart = (courseId) => {
-      const index = cart.findIndex(item => (item.id || item._id) === courseId);
-      if (index !== -1) {
-        const newCart = [...cart];
-        newCart.splice(index, 1);
-        setCart(newCart);
-        if (user) syncCartToDB(newCart, user._id);
-      }
-    };
+  const clearCart = () => {
+      setCart([]);
+      if (user) syncCartToDB([], user._id);
+  };
 
-    const clearCart = () => {
-        setCart([]);
-        if (user) syncCartToDB([], user._id);
-    };
+  // --- 3. UPDATED: Push to browser history on navigation ---
+  const navigateTo = (page) => {
+    localStorage.setItem('lastPage', page);
+    setCurrentPage(page);
+    setIsMenuOpen(false);
 
-    const navigateTo = (page) => {
-      localStorage.setItem('lastPage', page);
-      setCurrentPage(page);
-      setIsMenuOpen(false);
-      window.scrollTo(0, 0);
-    };
+    // Change the URL in the address bar without refreshing the page
+    const newUrl = page === 'home' ? '/' : `/${page}`;
+    window.history.pushState({}, '', newUrl);
 
-    return (
-      <div className="w-full overflow-x-hidden relative">
-        <div className="min-h-screen text-slate-100 selection:bg-[#7B7481] selection:text-white" style={{ fontFamily: "'Quicksand', sans-serif"}}>
-          <Toaster position="top-center" toastOptions={{ 
-            style: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }
-          }} />
-          
-          {bgType === 'dots' ? <Background /> : (
-            <div className="fixed inset-0 z-0 bg-[#0f0c14]">
-              <DotGrid dotSize={4} gap={30} baseColor="#d8b4e2" activeColor="#fbfbfb" proximity={200} />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
-            </div>
+    window.scrollTo(0, 0);
+  };
+
+  return (
+    <div className="w-full overflow-x-hidden relative">
+      <div className="min-h-screen text-slate-100 selection:bg-[#7B7481] selection:text-white" style={{ fontFamily: "'Quicksand', sans-serif"}}>
+        <Toaster position="top-center" toastOptions={{ 
+          style: { background: 'rgba(255, 255, 255, 0.1)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }
+        }} />
+        
+        {bgType === 'dots' ? <Background /> : (
+          <div className="fixed inset-0 z-0 bg-[#0f0c14]">
+            <DotGrid dotSize={4} gap={30} baseColor="#d8b4e2" activeColor="#fbfbfb" proximity={200} />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f0c14] pointer-events-none" />
+          </div>
+        )}
+
+        <Navbar 
+          cartCount={cart.length} 
+          currentPage={currentPage} 
+          navigateTo={navigateTo} 
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          clearCart={clearCart}
+          user={user}                 
+          handleLogout={handleLogout} 
+        />
+
+        {currentPage !== 'admin' && (
+          <div className="relative z-20 mt-32 h-16 md:h-24 overflow-visible">
+            <CurvedLoop 
+              marqueeText="✦ SUMMER WORKSHOP 2026 ✦ CLICK HERE TO REGISTER ✦"
+              speed={1.5}
+              className="text-[#fe6dc2] drop-shadow-md"
+              onClick={() => navigateTo('summer-camp')} 
+            />
+          </div>
+        )}
+        
+        <main className="relative z-10 transition-all duration-500 ease-in-out">
+          {currentPage === 'home' && <Home navigateTo={navigateTo} />}
+          {currentPage === 'courses' && <Courses addToCart={addToCart} />}
+          {currentPage === 'gallery' && <Gallery />}
+          {currentPage === 'about' && <About />}
+          {currentPage === 'contact' && <Contact />}
+          {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
+          {currentPage === 'admin' && <AdminDashboard />}
+          {currentPage === 'summer-camp' && <SummerCamp />}
+          {currentPage === 'art-store' && <ArtStore addToCart={addToCart} />}
+
+          {currentPage === 'cart' && (
+            <Cart 
+              cart={cart} 
+              navigateTo={navigateTo} 
+              removeFromCart={removeFromCart} 
+              addToCart={addToCart}
+              clearCart={clearCart}
+              user={user} 
+            />
           )}
+          {currentPage === 'login' && (
+              <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
+          )} 
+        </main>
 
-          <Navbar 
-            cartCount={cart.length} 
-            currentPage={currentPage} 
-            navigateTo={navigateTo} 
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            clearCart={clearCart}
-            user={user}                 
-            handleLogout={handleLogout} 
-          />
+        <FloatingWhatsApp />
 
-          {currentPage !== 'admin' && (
-            <div className="relative z-20 mt-32 h-16 md:h-24 overflow-visible">
-              <CurvedLoop 
-                marqueeText="✦ SUMMER WORKSHOP 2026 ✦ CLICK HERE TO REGISTER ✦"
-                speed={1.5}
-                className="text-[#fe6dc2] drop-shadow-md"
-                onClick={() => navigateTo('summer-camp')} 
-              />
-            </div>
-          )}
-          
-          <main className="relative z-10 transition-all duration-500 ease-in-out">
-            {currentPage === 'home' && <Home navigateTo={navigateTo} />}
-            {currentPage === 'courses' && <Courses addToCart={addToCart} />}
-            {currentPage === 'gallery' && <Gallery />}
-            {currentPage === 'about' && <About />}
-            {currentPage === 'contact' && <Contact />}
-            {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
-            {currentPage === 'admin' && <AdminDashboard />}
-            {currentPage === 'summer-camp' && <SummerCamp />}
-            
-            {/* --- 3. ADDED ART STORE ROUTE --- */}
-            {currentPage === 'art-store' && <ArtStore addToCart={addToCart} />}
-
-            {currentPage === 'cart' && (
-              <Cart 
-                cart={cart} 
-                navigateTo={navigateTo} 
-                removeFromCart={removeFromCart} 
-                addToCart={addToCart}
-                clearCart={clearCart}
-                user={user} 
-              />
-            )}
-            {currentPage === 'login' && (
-                <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
-            )} 
-          </main>
-
-          <FloatingWhatsApp />
-
-          <footer className="relative z-10 glass-card border-t border-white/10 py-12 px-4 mt-auto">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="text-center md:text-left">
-                    <h3 className="text-xl font-bold text-black">Chetna's Creative Den</h3>
-                    <p className="text-black text-sm mt-2">© 2026 All Rights Reserved.</p>
-                </div>
-                <div className="flex gap-6 text-gray-400 font-medium">
-                    <button onClick={() => navigateTo('admin')} className="text-black hover:text-grey transition-colors flex items-center gap-1">
-                      <User size={14}/> Admin Login
-                    </button>
-                </div>
-            </div>
-          </footer>
-        </div>
+        <footer className="relative z-10 glass-card border-t border-white/10 py-12 px-4 mt-auto">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="text-center md:text-left">
+                  <h3 className="text-xl font-bold text-black">Chetna's Creative Den</h3>
+                  <p className="text-black text-sm mt-2">© 2026 All Rights Reserved.</p>
+              </div>
+              <div className="flex gap-6 text-gray-400 font-medium">
+                  <button onClick={() => navigateTo('admin')} className="text-black hover:text-grey transition-colors flex items-center gap-1">
+                    <User size={14}/> Admin Login
+                  </button>
+              </div>
+          </div>
+        </footer>
       </div>
-    );
-  }
+    </div>
+  );
+}
