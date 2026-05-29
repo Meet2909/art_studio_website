@@ -102,7 +102,7 @@
 
     return (
         <div
-        className={`flex items-center justify-center w-full py-4 overflow-hidden transition-all duration-300 ${onClick ? 'hover:scale-105' : ''}`}
+        className={`flex items-center justify-center w-full max-h-[50px] md:max-h-[150px] overflow-visible transition-all duration-300 ${onClick ? 'hover:scale-30' : ''}`}
         style={{ visibility: ready ? 'visible' : 'hidden', cursor: cursorStyle }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
