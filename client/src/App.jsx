@@ -26,8 +26,8 @@ export default function App() {
   // --- 1. NEW: Check URL for initial page load ---
   const getInitialPage = () => {
     const path = window.location.pathname.substring(1); // removes the '/'
-    // Prioritize the URL path. If empty, fall back to localStorage, then 'home'.
-    return path || localStorage.getItem('lastPage') || 'home';
+    // Prioritize the URL path. If empty, fall back to sessionStorage, then 'home'.
+    return path || sessionStorage.getItem('lastPage') || 'home';
   };
 
   const [currentPage, setCurrentPage] = useState(getInitialPage());
@@ -35,9 +35,9 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [bgType] = useState('dots'); 
 
-  // Initialize user from LocalStorage
+  // Initialize user from SessionStorage
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('userInfo');
+    const savedUser = sessionStorage.getItem('userInfo');
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
@@ -85,7 +85,7 @@ export default function App() {
   }, []);
 
   const handleLoginSuccess = (userData) => {
-    localStorage.setItem('userInfo', JSON.stringify(userData));
+    sessionStorage.setItem('userInfo', JSON.stringify(userData));
     setUser(userData);
     navigateTo('home'); 
     
@@ -94,8 +94,8 @@ export default function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('lastPage');
+    sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('lastPage');
     setUser(null);
     setCart([]); 
     navigateTo('home');
