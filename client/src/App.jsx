@@ -42,17 +42,27 @@ export default function App() {
   });
 
   // --- 2. NEW: Listen for the Browser's Back/Forward Buttons ---
-  useEffect(() => {
-    const handlePopState = () => {
-      // Whenever the user clicks back/forward, read the URL and update React state
-      const newPage = getInitialPage();
-      setCurrentPage(newPage);
-      localStorage.setItem('lastPage', newPage);
-    };
+  // 2. Fix the Browser History and Back Button
+    useEffect(() => {
+      // A. On initial load/refresh, force the URL back to root ('/') to match our 'home' state
+      if (window.location.pathname !== '/') {
+        window.history.replaceState({}, '', '/');
+      }
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+      // B. Listen for the user clicking the browser's Back or Forward buttons
+      const handlePopState = () => {
+        // Read the URL the back button is trying to go to
+        const path = window.location.pathname.substring(1); 
+        // Update React state to match the URL (or default to home)
+        setCurrentPage(path || 'home');
+      };
+
+      // Attach the listener
+      window.addEventListener('popstate', handlePopState);
+      
+      // Cleanup the listener when the component unmounts
+      return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
 
   // Reusable Function to Fetch Cart
   const fetchUserCart = async (userId) => {
@@ -145,9 +155,8 @@ export default function App() {
       if (user) syncCartToDB([], user._id);
   };
 
-  // --- 3. UPDATED: Push to browser history on navigation ---
+  // 3. Push to browser history on navigation
   const navigateTo = (page) => {
-    localStorage.setItem('lastPage', page);
     setCurrentPage(page);
     setIsMenuOpen(false);
 
