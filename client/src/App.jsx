@@ -191,17 +191,6 @@ export default function App() {
           user={user}                 
           handleLogout={handleLogout} 
         />
-
-        {currentPage !== 'admin' && (
-          <div className="relative z-20 mt-32 h-16 md:h-24 overflow-visible">
-            <CurvedLoop 
-              marqueeText="✦ SUMMER WORKSHOP 2026 ✦ CLICK HERE TO REGISTER ✦"
-              speed={1.5}
-              className="text-[#fe6dc2] drop-shadow-md"
-              onClick={() => navigateTo('summer-camp')} 
-            />
-          </div>
-        )}
         
         <main className="relative z-10 transition-all duration-500 ease-in-out">
           {currentPage === 'home' && <Home navigateTo={navigateTo} />}
@@ -211,7 +200,6 @@ export default function App() {
           {currentPage === 'contact' && <Contact />}
           {currentPage === 'corporate' && <Corporate navigateTo={navigateTo} />} 
           {currentPage === 'admin' && <AdminDashboard />}
-          {currentPage === 'summer-camp' && <SummerCamp />}
           {currentPage === 'art-store' && <ArtStore addToCart={addToCart} />}
 
           {currentPage === 'cart' && (
