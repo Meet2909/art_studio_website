@@ -16,11 +16,19 @@ A full-stack, fully responsive web application built for an art workshop client.
 
 ##  Screenshots
 
-| Home Page | Art Store |
-| :---: | :---: |
-| ![Home Page]() | ![Art Store]() |
-| **Admin Dashboard** | **Corporate Portal** |
-| ![Admin Dashboard]() | ![Corporate Portal]() |
+# Home Page
+ <img width="1279" height="710" alt="image" src="https://github.com/user-attachments/assets/028977c7-3fa2-431c-8e8a-b8057f56b752" />
+ 
+ # Art Store 
+ <img width="1279" height="716" alt="image" src="https://github.com/user-attachments/assets/e15cf1cb-78ba-4015-af17-95e7d0291844" />
+
+# Admin Dashboard
+ <img width="1279" height="710" alt="image" src="https://github.com/user-attachments/assets/e48e84d3-5573-4e0b-b444-0c2eb1a0919f" /> <img width="1279" height="668" alt="image" src="https://github.com/user-attachments/assets/05f3a63f-7e91-4253-b2bd-dc0452b39a50" />
+
+# Corporate Portal
+<img width="1279" height="713" alt="image" src="https://github.com/user-attachments/assets/0d94956a-67da-423d-8ac1-b25bac5e9fcd" />
+<img width="1279" height="715" alt="image" src="https://github.com/user-attachments/assets/27c3802d-3347-4316-a1bc-a470439eecdb" />
+
 
 ##  Tech Stack & Architecture
 
