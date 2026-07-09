@@ -3,13 +3,13 @@ import { ArrowRight, Brush, Shapes, Building2 } from "lucide-react";
 import HomeGallerySection from "../components/HomeGallerySection"; 
 
 const Home = ({ navigateTo }) => (
-<div className="relative pt-20">
+<div className="relative pt-32">
     {/* HERO SECTION */}
     <div className="relative min-h-[40vh] md:min-h-[20vh] flex flex-col items-center justify-center overflow-hidden">
     <div className="relative z-5 text-center px-4 max-w-[90rem] mx-auto w-full">
         
         {/* --- BANNER IMAGE UPDATE --- */}
-        <div className="flex justify-center mb-8 md:mb-8">
+        <div className="flex justify-center mb-16 md:mb-16">
             <img 
                 src="/Banner2.png" 
                 alt="A Courtyard of Endless Creativity" 
