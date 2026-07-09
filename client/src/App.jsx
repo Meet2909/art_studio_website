@@ -20,7 +20,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import ArtStore from './pages/ArtStore';
-import SummerCamp from './pages/SummerCamp';
+//import SummerCamp from './pages/SummerCamp';
 
 export default function App() {
   // --- 1. NEW: Check URL for initial page load ---
