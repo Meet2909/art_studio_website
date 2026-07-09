@@ -21,7 +21,7 @@ const Home = ({ navigateTo }) => (
         <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-8">
         <button
             onClick={() => navigateTo("courses")}
-            className="group relative w-auto max-w-full px-6 py-3 md:px-16 md:py-10 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm border border-black/10 text-black transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl"
+            className="group relative w-auto max-w-full px-6 py-6 md:px-16 md:py-10 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm border border-black/10 text-black transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl"
         >
             <span className="relative z-10 flex items-center justify-center gap-3 font-medium text-lg md:text-2xl tracking-wide">
             Start Creating <ArrowRight className="w-3 h-5 md:w-8 md:h-8" />
