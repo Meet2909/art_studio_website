@@ -1,6 +1,7 @@
 # Art Studio Workshop & E-Commerce Platform
 
-[![ View Live Website]("https://github.com/user-attachments/assets/0b4830af-a562-48d1-a2cb-660109e1bff6")](https://chetnas-creative-den.onrender.com/)
+[![ Look at the live website](hyperlinkimg.png)]("https://ccdartstudio.com")
+
 
 A full-stack, fully responsive web application built for an art workshop client. This platform serves as a digital portfolio, an e-commerce storefront for purchasing artworks and courses, and a booking portal for corporate events. It features a custom-built admin panel for business analytics and utilizes modern UI components for an engaging, artistic user experience.
 
