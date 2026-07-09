@@ -5,11 +5,11 @@ import HomeGallerySection from "../components/HomeGallerySection";
 const Home = ({ navigateTo }) => (
 <div className="relative pt-32">
     {/* HERO SECTION */}
-    <div className="relative min-h-[40vh] md:min-h-[20vh] flex flex-col items-center justify-center overflow-hidden">
-    <div className="relative z-5 text-center px-4 max-w-[90rem] mx-auto w-full">
+    <div className="relative min-h-[40vh] md:min-h-[20vh] flex flex-col items-center justify-center overflow-visible">
+    <div className="relative z-20 text-center px-4 max-w-[90rem] mx-auto w-full">
         
         {/* --- BANNER IMAGE UPDATE --- */}
-        <div className="flex justify-center mb-16 md:mb-16">
+        <div className="flex justify-center mb-12 md:mb-16">
             <img 
                 src="/Banner2.png" 
                 alt="A Courtyard of Endless Creativity" 
@@ -18,7 +18,7 @@ const Home = ({ navigateTo }) => (
         </div>
 
         {/* BUTTONS */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-8">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-8 mb-20 md:mb-24">
         <button
             onClick={() => navigateTo("courses")}
             className="group relative w-auto max-w-full px-6 py-6 md:px-16 md:py-10 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm border border-black/10 text-black transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl"
