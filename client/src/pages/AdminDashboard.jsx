@@ -25,6 +25,8 @@
     // Form States
     const [newItem, setNewItem] = useState({ title: "", rounded: "rounded-[15px]", file: null });
     const [editingCourse, setEditingCourse] = useState(null);
+    const [newCourse, setNewCourse] = useState({ 
+    title: "", price: "", category: "Adults", type: "Fine Arts", description: "", slots: 20, file: null });
     
     // New Art Form State
     const [newArt, setNewArt] = useState({ 
@@ -166,14 +168,81 @@
         if(!window.confirm("Delete this image?")) return;
         try { await authFetch(`/api/admin/gallery/${id}`, { method: "DELETE" }); toast.success("Image Deleted"); fetchData(user.token); } catch (error) {}
     };
+    // Add New Course Handler
+const handleAddCourse = async (e) => {
+    e.preventDefault();
+    if (!newCourse.file) return toast.error("Please select a course image");
+
+    const formData = new FormData();
+    formData.append("title", newCourse.title);
+    formData.append("price", newCourse.price);
+    formData.append("category", newCourse.category);
+    formData.append("type", newCourse.type);
+    formData.append("description", newCourse.description);
+    formData.append("slots", newCourse.slots);
+    formData.append("imageFile", newCourse.file);
+
+    const toastId = toast.loading("Adding Course...");
+
+    try {
+        const res = await fetch(`/api/admin/courses`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${user.token}` },
+            body: formData,
+        });
+
+        if (res.ok) {
+            toast.success("Course Added!", { id: toastId });
+            setNewCourse({ title: "", price: "", category: "Adults", type: "Fine Arts", description: "", slots: 20, file: null });
+            fetchData(user.token);
+        } else {
+            toast.error("Upload failed", { id: toastId });
+        }
+    } catch (err) {
+        toast.error("Server Error", { id: toastId });
+    }
+};
+
+// Updated Update Course Handler
     const handleUpdateCourse = async (e) => {
         e.preventDefault();
+        const toastId = toast.loading("Updating Course...");
+        
+        const formData = new FormData();
+        formData.append("title", editingCourse.title);
+        formData.append("price", editingCourse.price);
+        formData.append("category", editingCourse.category);
+        formData.append("type", editingCourse.type);
+        formData.append("slots", editingCourse.slots);
+        
+        // Convert array back to string if needed for the backend parser
+        const descString = Array.isArray(editingCourse.description) 
+            ? editingCourse.description.join('\n') 
+            : editingCourse.description;
+        formData.append("description", descString);
+    
+        if (editingCourse.newFile) {
+            formData.append("imageFile", editingCourse.newFile);
+        }
+    
         try {
-        const res = await authFetch(`/api/admin/courses/${editingCourse._id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editingCourse) });
-        if (res.ok) { toast.success("Course Updated!"); setEditingCourse(null); fetchData(user.token); }
-        } catch (err) { toast.error("Update failed"); }
+            const res = await fetch(`/api/admin/courses/${editingCourse._id}`, { 
+                method: "PUT", 
+                headers: { Authorization: `Bearer ${user.token}` },
+                body: formData 
+            });
+            
+            if (res.ok) { 
+                toast.success("Course Updated!", { id: toastId }); 
+                setEditingCourse(null); 
+                fetchData(user.token); 
+            } else {
+                toast.error("Update failed", { id: toastId });
+            }
+        } catch (err) { 
+            toast.error("Server Error", { id: toastId }); 
+        }
     };
-
     // --- RENDER ---
     if (!user) {
         // ... (Keep existing Login UI) ...
@@ -420,34 +489,114 @@
             {/* --- TAB: COURSES --- */}
             {activeTab === "courses" && (
             <div className="space-y-8">
+                
+                {/* Add Course Form */}
+                <div className="glass-card p-8 rounded-3xl border border-white/10">
+                    <h2 className="text-2xl font-bold text-black mb-6">Add New Course</h2>
+                    <form onSubmit={handleAddCourse} className="grid md:grid-cols-2 gap-4">
+                        <input 
+                            type="text" placeholder="Course Title" required
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.title} onChange={(e)=>setNewCourse({...newCourse, title: e.target.value})}
+                        />
+                        <input 
+                            type="number" placeholder="Price (₹) per month" required
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.price} onChange={(e)=>setNewCourse({...newCourse, price: e.target.value})}
+                        />
+                        <select 
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.category} onChange={(e)=>setNewCourse({...newCourse, category: e.target.value})}
+                        >
+                            <option value="Adults">Adults</option>
+                            <option value="Kids">Kids</option>
+                        </select>
+                        <select 
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.type} onChange={(e)=>setNewCourse({...newCourse, type: e.target.value})}
+                        >
+                            <option value="Fine Arts">Fine Arts</option>
+                            <option value="Sculpting">Sculpting</option>
+                        </select>
+                        <input 
+                            type="number" placeholder="Available Slots" required
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.slots} onChange={(e)=>setNewCourse({...newCourse, slots: e.target.value})}
+                        />
+                        <input 
+                            type="file" accept="image/*" required
+                            className="bg-white/5 border border-white/10 rounded-lg p-3 text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#D984B5] file:text-white"
+                            onChange={(e)=>setNewCourse({...newCourse, file: e.target.files[0]})}
+                        />
+                        <textarea 
+                            placeholder="Description (Press Enter for new bullet points)" required rows="4"
+                            className="md:col-span-2 bg-white/5 border border-white/10 rounded-lg p-3 text-black"
+                            value={newCourse.description} onChange={(e)=>setNewCourse({...newCourse, description: e.target.value})}
+                        />
+                        <button className="md:col-span-2 bg-[#D984B5] text-black font-bold py-3 rounded-lg hover:bg-white transition-colors">
+                            Add Course
+                        </button>
+                    </form>
+                </div>
+            
+                {/* Edit Modal */}
                 {editingCourse && (
                 <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-                    <div className="bg-[#1a1a2e] p-8 rounded-2xl w-full max-w-2xl border border-white/20 relative">
-                    <button onClick={() => setEditingCourse(null)} className="absolute top-4 right-4 text-black"><X /></button>
-                    <h2 className="text-2xl font-bold text-white mb-6">Edit Course</h2>
-                    <form onSubmit={handleUpdateCourse} className="space-y-4">
-                        <input className="bg-white/5 p-3 rounded text-black w-full" value={editingCourse.title} onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})} />
-                        <input className="bg-white/5 p-3 rounded text-black w-full" type="number" value={editingCourse.price} onChange={(e) => setEditingCourse({...editingCourse, price: e.target.value})} />
-                        <button className="w-full bg-[#D984B5] py-3 rounded text-black font-bold">Save Changes</button>
-                    </form>
+                    <div className="bg-[#1a1a2e] p-8 rounded-2xl w-full max-w-2xl border border-white/20 relative overflow-y-auto max-h-[90vh]">
+                        <button onClick={() => setEditingCourse(null)} className="absolute top-4 right-4 text-white"><X /></button>
+                        <h2 className="text-2xl font-bold text-white mb-6">Edit Course</h2>
+                        <form onSubmit={handleUpdateCourse} className="space-y-4">
+                            <input placeholder="Title" className="bg-white/5 p-3 rounded text-white border border-white/20 w-full" value={editingCourse.title} onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})} />
+                            <div className="grid grid-cols-2 gap-4">
+                                <input type="number" placeholder="Price" className="bg-white/5 p-3 rounded text-white border border-white/20 w-full" value={editingCourse.price} onChange={(e) => setEditingCourse({...editingCourse, price: e.target.value})} />
+                                <input type="number" placeholder="Slots" className="bg-white/5 p-3 rounded text-white border border-white/20 w-full" value={editingCourse.slots} onChange={(e) => setEditingCourse({...editingCourse, slots: e.target.value})} />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <select className="bg-[#1a1a2e] p-3 rounded text-white border border-white/20 w-full" value={editingCourse.category} onChange={(e)=>setEditingCourse({...editingCourse, category: e.target.value})}>
+                                    <option value="Adults">Adults</option>
+                                    <option value="Kids">Kids</option>
+                                </select>
+                                <select className="bg-[#1a1a2e] p-3 rounded text-white border border-white/20 w-full" value={editingCourse.type} onChange={(e)=>setEditingCourse({...editingCourse, type: e.target.value})}>
+                                    <option value="Fine Arts">Fine Arts</option>
+                                    <option value="Sculpting">Sculpting</option>
+                                </select>
+                            </div>
+                            <textarea 
+                                rows="4" 
+                                className="bg-white/5 p-3 rounded text-white border border-white/20 w-full" 
+                                value={Array.isArray(editingCourse.description) ? editingCourse.description.join('\n') : editingCourse.description} 
+                                onChange={(e) => setEditingCourse({...editingCourse, description: e.target.value})} 
+                            />
+                            <div className="space-y-2">
+                                <label className="text-sm text-gray-400">Update Image (Leave blank to keep current)</label>
+                                <input 
+                                    type="file" accept="image/*" 
+                                    className="bg-white/5 border border-white/20 rounded-lg p-2 text-white w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#D984B5] file:text-white"
+                                    onChange={(e)=>setEditingCourse({...editingCourse, newFile: e.target.files[0]})}
+                                />
+                            </div>
+                            <button className="w-full bg-[#D984B5] py-3 rounded text-black font-bold hover:bg-white transition-colors mt-4">Save Changes</button>
+                        </form>
                     </div>
                 </div>
                 )}
+            
+                {/* Course List */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {courses.map(course => (
                     <div key={course._id} className="glass-card p-6 rounded-2xl border border-white/10 flex gap-4">
                     <img src={course.image} className="w-24 h-24 object-cover rounded-lg" />
                     <div className="flex-1">
-                        <h3 className="text-xl font-bold text-black">{course.title}</h3>
+                        <h3 className="text-xl font-bold text-black">{Array.isArray(course.title) ? course.title[0] : course.title}</h3>
                         <p className="text-[#D984B5] font-bold">₹{course.price}</p>
-                        <button onClick={() => setEditingCourse(course)} className="mt-4 px-4 py-2 bg-white/10 text-black rounded-lg flex items-center gap-2"><Edit size={16} /> Edit</button>
+                        <p className="text-xs text-gray-600">{course.category} • {course.type}</p>
+                        <button onClick={() => setEditingCourse(course)} className="mt-4 px-4 py-2 bg-white/10 hover:bg-white hover:text-[#D984B5] text-black rounded-lg flex items-center gap-2 transition-colors"><Edit size={16} /> Edit</button>
                     </div>
                     </div>
                 ))}
                 </div>
             </div>
             )}
-
             {/* --- TAB: ENQUIRIES --- */}
             {activeTab === "enquiries" && (
             <div className="glass-card p-8 rounded-3xl border border-white/10">
