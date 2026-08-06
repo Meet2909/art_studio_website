@@ -116,43 +116,86 @@
         });
 
 
-    // --- 3. COURSE ROUTES ---
+       // --- 3. COURSE ROUTES ---
     router.get("/courses", async (req, res) => {
-        // Public route to fetch courses for editing list
-        const courses = await Course.find({});
-        res.json(courses);
+        try {
+            const courses = await Course.find({});
+            res.json(courses);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     });
-
-    router.post("/courses", protect, admin, async (req, res) => {
-    try {
-        const newCourse = new Course(req.body);
-        await newCourse.save();
-        res.status(201).json(newCourse);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    
+    // Create New Course (With Image Upload)
+    router.post("/courses", protect, admin, (req, res, next) => {
+        upload.single("imageFile")(req, res, (err) => {
+            if (err) return res.status(500).json({ message: "Upload Error" });
+            next();
+        });
+    }, async (req, res) => {
+        try {
+            if (!req.file) return res.status(400).json({ message: "No image provided" });
+    
+            // Convert textarea newlines into an array of strings for the schema
+            const descArray = req.body.description 
+                ? req.body.description.split('\n').filter(line => line.trim() !== '') 
+                : [];
+    
+            const newCourse = new Course({
+                title: req.body.title,
+                category: req.body.category,
+                type: req.body.type,
+                price: req.body.price,
+                description: descArray,
+                slots: req.body.slots || 20,
+                image: req.file.secure_url
+            });
+    
+            await newCourse.save();
+            res.status(201).json(newCourse);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     });
-
-    router.put("/courses/:id", protect, admin, async (req, res) => {
-    try {
-        const updatedCourse = await Course.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
-            { new: true } // Return the updated doc
-        );
-        res.json(updatedCourse);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    
+    // Update Existing Course (With Optional Image Upload)
+    router.put("/courses/:id", protect, admin, (req, res, next) => {
+        upload.single("imageFile")(req, res, (err) => {
+            if (err) return res.status(500).json({ message: "Upload Error" });
+            next();
+        });
+    }, async (req, res) => {
+        try {
+            const updateData = { ...req.body };
+    
+            // Handle description formatting if it was updated
+            if (req.body.description && typeof req.body.description === 'string') {
+                updateData.description = req.body.description.split('\n').filter(line => line.trim() !== '');
+            }
+    
+            // If a new file was uploaded, update the image URL
+            if (req.file) {
+                updateData.image = req.file.secure_url;
+            }
+    
+            const updatedCourse = await Course.findByIdAndUpdate(
+                req.params.id, 
+                updateData, 
+                { new: true } 
+            );
+            res.json(updatedCourse);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     });
-
+    
     router.delete("/courses/:id", protect, admin, async (req, res) => {
-    try {
-        await Course.findByIdAndDelete(req.params.id);
-        res.json({ message: "Course deleted" });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+        try {
+            await Course.findByIdAndDelete(req.params.id);
+            res.json({ message: "Course deleted" });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     });
 
 
