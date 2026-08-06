@@ -9,12 +9,21 @@ const Home = ({ navigateTo }) => (
     <div className="relative z-20 text-center px-4 max-w-[90rem] mx-auto w-full">
         
         {/* --- BANNER IMAGE UPDATE --- */}
-        <div className="flex justify-center mb-12 md:mb-16">
+        <div className="flex justify-center mb-8 md:mb-10">
             <img 
                 src="/Banner2.png" 
                 alt="A Courtyard of Endless Creativity" 
                 className="w-full max-w-6xl h-auto object-contain drop-shadow-xl hover:scale-105 transition-transform duration-700"
             />
+        </div>
+
+        {/* --- NEW CREATIVE NOTICE --- */}
+        <div className="flex justify-center mb-8 px-4">
+            <div className="px-8 py-4 rounded-3xl bg-white/50 backdrop-blur-md border border-[#D984B5]/30 shadow-[0_4px_20px_-5px_rgba(217,132,181,0.3)] text-center max-w-3xl animate-fade-in-up">
+                <p className="font-medium text-lg md:text-2xl tracking-wide text-gray-900">
+                    ✨ Our courses and active workshops are available on our store just click the button below ✨
+                </p>
+            </div>
         </div>
 
         {/* BUTTONS */}
@@ -50,7 +59,7 @@ const Home = ({ navigateTo }) => (
                 title: "Fine Arts & Modern Art",
                 desc: "Oil, Acrylic & Watercolors",
                 route: "art-store",
-                colorTheme: "bg-[#ca679094] hover:bg-[#ff8f8f] text-black shadow-[#FF7eb3]/40", // Vibrant Pink
+                colorTheme: "bg-[#ca679094] hover:bg-[#ff8f8f] text-black shadow-[#FF7eb3]/40", 
                 iconColor: "text-[#FF7eb3]"
             },
             { 
@@ -58,7 +67,7 @@ const Home = ({ navigateTo }) => (
                 title: "Sculpting", 
                 desc: "Clay modeling & Pottery",
                 route: "courses",
-                colorTheme: "bg-[#ffc7829a] hover:bg-[#ff9959] text-black shadow-[#FFB75E]/40", // Vibrant Orange
+                colorTheme: "bg-[#ffc7829a] hover:bg-[#ff9959] text-black shadow-[#FFB75E]/40", 
                 iconColor: "text-[#FFB75E]"
             },
             { 
@@ -66,14 +75,13 @@ const Home = ({ navigateTo }) => (
                 title: "Corporate Workshops", 
                 desc: "Team activities & Stress Relief",
                 route: "corporate",
-                colorTheme: "bg-[#42a1ff8b] hover:bg-[#7c25ff] text-black shadow-[#42a1ff]/40", // Vibrant Blue
+                colorTheme: "bg-[#42a1ff8b] hover:bg-[#7c25ff] text-black shadow-[#42a1ff]/40", 
                 iconColor: "text-[#42a1ff]"
             }
             ].map((cat, idx) => (
             <div
                 key={idx}
                 onClick={() => navigateTo(cat.route)}
-                // Removed glass classes, added dynamic colorTheme
                 className={`${cat.colorTheme} p-8 md:p-14 rounded-3xl md:rounded-[2.5rem] text-center group cursor-pointer transition-all duration-300 ease-out hover:-translate-y-4 shadow-xl`}
             >
                 <div className="w-20 h-20 md:w-28 md:h-28 mx-auto bg-white rounded-full flex items-center justify-center mb-6 md:mb-8 transition-transform duration-300 group-hover:scale-110 shadow-sm">
