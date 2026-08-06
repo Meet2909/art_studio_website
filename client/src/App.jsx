@@ -20,7 +20,6 @@ import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import ArtStore from './pages/ArtStore';
-//import SummerCamp from './pages/SummerCamp';
 
 export default function App() {
   // --- 1. NEW: Check URL for initial page load ---
@@ -30,7 +29,10 @@ export default function App() {
     return path || sessionStorage.getItem('lastPage') || 'home';
   };
 
-  const [currentPage, setCurrentPage] = useState(getInitialPage());
+  const [currentPage, setCurrentPage] = useState(() => {
+    const path = window.location.pathname.slice(1);
+    return path || "home";
+  });
   const [cart, setCart] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [bgType] = useState('dots'); 
@@ -42,26 +44,17 @@ export default function App() {
   });
 
   // --- 2. NEW: Listen for the Browser's Back/Forward Buttons ---
-  // 2. Fix the Browser History and Back Button
-    useEffect(() => {
-      // A. On initial load/refresh, force the URL back to root ('/') to match our 'home' state
-      if (window.location.pathname !== '/') {
-        window.history.replaceState({}, '', '/');
-      }
-
-      // B. Listen for the user clicking the browser's Back or Forward buttons
-      const handlePopState = () => {
-        // Read the URL the back button is trying to go to
-        const path = window.location.pathname.substring(1); 
-        // Update React state to match the URL (or default to home)
-        setCurrentPage(path || 'home');
+        useEffect(() => {
+      const handleLocationChange = () => {
+        const path = window.location.pathname.slice(1);
+        setCurrentPage(path || "home");
       };
-
-      // Attach the listener
-      window.addEventListener('popstate', handlePopState);
+    
+      window.addEventListener('popstate', handleLocationChange);
       
-      // Cleanup the listener when the component unmounts
-      return () => window.removeEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handleLocationChange);
+      };
     }, []);
 
   // Reusable Function to Fetch Cart
@@ -160,9 +153,9 @@ export default function App() {
     setCurrentPage(page);
     setIsMenuOpen(false);
 
-    // Change the URL in the address bar without refreshing the page
+    // FIX: Actually use the newUrl variable so 'home' becomes '/' instead of '/home'
     const newUrl = page === 'home' ? '/' : `/${page}`;
-    window.history.pushState({}, '', newUrl);
+    window.history.pushState(null, '', newUrl);
 
     window.scrollTo(0, 0);
   };
@@ -215,6 +208,10 @@ export default function App() {
           {currentPage === 'login' && (
               <Login navigateTo={navigateTo} onLoginSuccess={handleLoginSuccess} />
           )} 
+          {/* THE SAFETY FALLBACK: If URL doesn't match any page, load Home */}
+          {![ "home", "courses", "art-store", "gallery", "corporate", "about", "contact", "login", "admin", "cart"].includes(currentPage) && (
+              <Home navigateTo={navigateTo} />
+          )}
         </main>
 
         <FloatingWhatsApp />
