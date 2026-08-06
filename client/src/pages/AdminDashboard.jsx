@@ -243,6 +243,25 @@ const handleAddCourse = async (e) => {
             toast.error("Server Error", { id: toastId }); 
         }
     };
+
+        // Delete Course Handler
+    const handleDeleteCourse = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this course? This action cannot be undone.")) return;
+        
+        const toastId = toast.loading("Deleting Course...");
+        try {
+            const res = await authFetch(`/api/admin/courses/${id}`, { method: "DELETE" });
+            
+            if (res.ok) {
+                toast.success("Course Deleted!", { id: toastId });
+                fetchData(user.token); // Refresh the course list
+            } else {
+                toast.error("Failed to delete course", { id: toastId });
+            }
+        } catch (error) {
+            toast.error("Server Error", { id: toastId });
+        }
+    };
     // --- RENDER ---
     if (!user) {
         // ... (Keep existing Login UI) ...
@@ -586,17 +605,32 @@ const handleAddCourse = async (e) => {
                 {courses.map(course => (
                     <div key={course._id} className="glass-card p-6 rounded-2xl border border-white/10 flex gap-4">
                     <img src={course.image} className="w-24 h-24 object-cover rounded-lg" />
-                    <div className="flex-1">
-                        <h3 className="text-xl font-bold text-black">{Array.isArray(course.title) ? course.title[0] : course.title}</h3>
-                        <p className="text-[#D984B5] font-bold">₹{course.price}</p>
-                        <p className="text-xs text-gray-600">{course.category} • {course.type}</p>
-                        <button onClick={() => setEditingCourse(course)} className="mt-4 px-4 py-2 bg-white/10 hover:bg-white hover:text-[#D984B5] text-black rounded-lg flex items-center gap-2 transition-colors"><Edit size={16} /> Edit</button>
+                    <div className="flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 className="text-xl font-bold text-black">{Array.isArray(course.title) ? course.title[0] : course.title}</h3>
+                            <p className="text-[#D984B5] font-bold">₹{course.price}</p>
+                            <p className="text-xs text-gray-600">{course.category} • {course.type}</p>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 mt-4">
+                            <button 
+                                onClick={() => setEditingCourse(course)} 
+                                className="px-4 py-2 bg-white/10 hover:bg-white hover:text-[#D984B5] text-black rounded-lg flex items-center gap-2 transition-colors flex-1 justify-center"
+                            >
+                                <Edit size={16} /> Edit
+                            </button>
+                            <button 
+                                onClick={() => handleDeleteCourse(course._id)} 
+                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-lg flex items-center gap-2 transition-colors flex-1 justify-center"
+                            >
+                                <Trash2 size={16} /> Delete
+                            </button>
+                        </div>
                     </div>
                     </div>
                 ))}
                 </div>
-            </div>
-            )}
             {/* --- TAB: ENQUIRIES --- */}
             {activeTab === "enquiries" && (
             <div className="glass-card p-8 rounded-3xl border border-white/10">
