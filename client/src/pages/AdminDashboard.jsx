@@ -631,6 +631,8 @@ const handleAddCourse = async (e) => {
                     </div>
                 ))}
                 </div>
+            </div>
+            )}
             {/* --- TAB: ENQUIRIES --- */}
             {activeTab === "enquiries" && (
             <div className="glass-card p-8 rounded-3xl border border-white/10">
