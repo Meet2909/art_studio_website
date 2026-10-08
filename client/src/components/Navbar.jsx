@@ -1,6 +1,5 @@
 import React from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
-import GlassSurface from "./GlassSurface"; 
 
 const Navbar = ({
   cartCount,
@@ -27,22 +26,11 @@ const Navbar = ({
   return (
     <nav className="fixed w-full z-[100] top-0 left-0">
       
-      {/* GLASS SURFACE BACKGROUND */}
-      <div className="absolute inset-0 w-full h-24 z-0"> {/* Slightly taller background to accommodate bigger buttons */}
-        <GlassSurface
-          width="100%"
-          height={96} // Matched to h-24 (96px)
-          borderRadius={0} 
-          borderWidth={0}
-          blur={15}
-          opacity={0.8}
-          backgroundOpacity={0.2}
-          className="w-full h-full border-b border-white/20 shadow-sm"
-        />
-      </div>
+      {/* CSS-BASED TRANSLUCENT GLASS BACKGROUND */}
+      <div className="absolute inset-0 w-full h-24 z-0 bg-white/60 backdrop-blur-md border-b border-white/20 shadow-sm transition-all duration-300"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24"> {/* Changed to h-24 */}
+        <div className="flex items-center justify-between h-24">
 
           {/* LOGO */}
           <div
@@ -66,14 +54,13 @@ const Navbar = ({
             </div>
           </div>
 
-          {/* --- UPDATED DESKTOP MENU --- */}
+          {/* DESKTOP MENU */}
           <div className="hidden md:flex flex-grow justify-center">
             <div className="flex items-center space-x-2 lg:space-x-4">
               {menuItems.map((item) => (
                 <button
                   key={item}
                   onClick={() => handleNavClick(item)}
-                  // Added heavier font, larger text, padding, drop-shadows, and a background hover pill effect
                   className={`px-4 py-2.5 rounded-2xl text-lg font-extrabold tracking-wide transition-all duration-300 drop-shadow-sm ${
                     currentPage === (item === "Art Store" ? "art-store" : item.toLowerCase())
                       ? "text-[#ff6b8b] scale-110 bg-white/50 shadow-md border border-white/40"
@@ -86,7 +73,7 @@ const Navbar = ({
             </div>
           </div>
 
-          {/* --- UPDATED RIGHT SIDE (Auth & Cart) --- */}
+          {/* RIGHT SIDE (Auth & Cart) */}
           <div className="flex items-center gap-3 md:gap-6">
 
             {/* AUTH DESKTOP */}
@@ -98,7 +85,6 @@ const Navbar = ({
                   </span>
                   <button
                     onClick={handleLogout}
-                    // Bigger, bolder logout button with hover lift
                     className="text-base font-extrabold border-2 border-red-500 text-red-600 bg-white/30 backdrop-blur-sm px-6 py-2.5 rounded-full hover:bg-red-500 hover:text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                   >
                     Logout
@@ -107,7 +93,6 @@ const Navbar = ({
               ) : (
                 <button
                   onClick={() => navigateTo("login")}
-                  // Bigger, bolder login button with hover lift and pink fill
                   className="px-8 py-2.5 rounded-full border-2 border-black text-black text-base font-extrabold hover:bg-[#D984B5] hover:border-[#D984B5] hover:text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 drop-shadow-sm bg-white/20 backdrop-blur-sm"
                 >
                   Login
@@ -118,7 +103,6 @@ const Navbar = ({
             {/* CART ICON */}
             <button
               onClick={() => navigateTo("cart")}
-              // Added a distinct circular background to make the icon pop off the glass
               className="relative p-3 bg-white/40 border border-white/50 rounded-full text-[#D984B5] hover:text-[#ff6b8b] hover:bg-white/70 hover:scale-110 hover:shadow-lg transition-all duration-300 shadow-sm"
             >
               <ShoppingCart className="h-6 w-6 md:h-7 md:w-7 drop-shadow-sm" />
@@ -143,7 +127,7 @@ const Navbar = ({
         </div>
       </div>
 
-      {/* MOBILE BACKDROP & MENU (Unchanged logic, just minor aesthetic tweaks) */}
+      {/* MOBILE BACKDROP */}
       <div
         className={`md:hidden fixed inset-0 z-[95] transition-all duration-300 ${
           isMenuOpen
@@ -153,6 +137,7 @@ const Navbar = ({
         onClick={() => setIsMenuOpen(false)}
       />
 
+      {/* MOBILE MENU */}
       <div
         className={`md:hidden fixed left-0 top-24 w-full z-[96] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
         ${
